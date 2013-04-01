@@ -1,0 +1,26 @@
+    This is at least a partial credits-file of people that have 
+contributed to the pyutil project.  It is formatted to allow easy
+grepping and beautification by scripts.  The fields are: name (N), email (E),
+web-address (W), PGP key ID and fingerprint (P), description (D), and
+snail-mail address (S).
+
+Thanks,
+
+Zooko
+----------
+
+N: The Evil Geniuses For A Better Tomorrow
+D: turned some crazy ideas into a crazy reality
+
+N: Lars the Talking Alien
+E: lars@mad-scientist.com
+D: came to us in dreams and made us become Enlightened Ones
+S: 644 Church St., Mountain View, 94041 CA, USA, 3 Sol, Milky Way, above the fireplace
+
+N: Faried Nawaz
+E: fn@hungry.org
+D: the c_xor module
+
+N: Lele Gaifax
+E: lele@nautilus.homeip.net
+D: patch to fileutil -- close tempfile fd

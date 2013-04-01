@@ -1,0 +1,109 @@
+python-pyutil (1.8.1.58) lucid; urgency=low
+
+  [ Zooko Ofsimplegeo ]
+  * um, maybe the work-around is not to tell debian that those files
+    exist?
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 22 Dec 2010 18:53:28 +0000
+
+python-pyutil (1.8.1.57) lucid; urgency=low
+
+  * UNRELEASED
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 22 Dec 2010 18:36:18 +0000
+
+python-pyutil (1.8.1.56) lucid; urgency=low
+
+  [ Zooko Ofsimplegeo ]
+  * setup: ignore missing README.rst file (I don't know why SimpleGeo's
+    build system is generating tarballs without README.rst, but it is)
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 22 Dec 2010 18:34:53 +0000
+
+python-pyutil (1.8.1.55) lucid; urgency=low
+
+  [ Zooko Ofsimplegeo ]
+  * sync with latest darcs version
+  * tests: skip tests of C speedups if they aren't present (couldn't be
+    compiled); This makes it require Twisted Trial to run tests.
+  * setup: unzip by default, and require Twisted Trial to run "python
+    setup.py test"
+  * update to pyutil-1.7.7, include pyutil/_version.py so it has a
+    version number
+  * version 1.7.8
+  * trivial: fix typo
+  * benchutil: add parameter for time units, default to 1s, add footer
+    defining units, fix bug in auto-choice of N, skip on exception in
+    bench_json.py
+  * try_decoding: a handy script to find out what codecs a given byte
+    sequence might possibly be encoded in It includes the option of
+    telling it what resulting characters you were actually expecting. If
+    you don't give that option then it just shows you the characters
+    that would result if you decoded those bytes with each of the codecs
+    that Python knows about. It skips codecs which raise an exception
+    when they attempt to decode that sequence of bytes.
+  * update to upstream 1.8.1
+  * setup: (re-?) apply debian/ directory
+  * remove never-completed backport of decimal from python 2.7
+  * pyflakes cleanups
+  * build-depend on python-coverage
+  * build-dep on python-twisted-core to get "trial"
+  * debian/rules: run tests with "trial" instead of "setup.py test"
+  * try to invoke "trial" within coverage...
+  * okay that's not working, how about using setuptools-trial instead
+  * debian: depend on python-twisted instead of python-twisted-core so
+    that it won't attempt to compile twisted
+  * debuil-dep simplejson
+  * new name of README
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Tue, 21 Dec 2010 23:40:04 +0000
+
+python-pyutil (1.7.9-sg32) lucid; urgency=low
+
+  * UNRELEASED
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Thu, 02 Dec 2010 23:54:17 +0000
+
+python-pyutil (1.7.9-sg31) lucid; urgency=low
+
+  [ Ian Eure ]
+  * Move setuptools_trial to tests_require.
+  * Remove extra GPL from docs.
+  * Remove egg-info.
+  * Remove darcs stuff, we're using Git here.
+  * Remove clean rule.
+  * Build-Depend on setuptools.
+
+  [ SimpleGeo Nerds ]
+
+ -- SimpleGeo Nerds <nerds@simplegeo.com>  Wed, 16 Jun 2010 20:26:38 +0000
+
+python-pyutil (1.7.9-sg0) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Ian Eure <ian@simplegeo.com>  Wed, 16 Jun 2010 11:30:39 -0700
+
+python-pyutil (1.7.6-3) unstable; urgency=low
+
+  * Fix dependencies.
+
+ -- Ian Eure <ian@simplegeo.com>  Mon, 17 May 2010 10:57:01 -0700
+
+python-pyutil (1.7.6-2) unstable; urgency=low
+
+  * Added Debian source version.
+
+ -- Ian Eure <ian@simplegeo.com>  Mon, 17 May 2010 10:56:56 -0700
+
+python-pyutil (1.7.6-1) unstable; urgency=low
+
+  * Debianized.
+
+ -- Ian Eure <ian@simplegeo.com>  Mon, 17 May 2010 10:27:35 -0700

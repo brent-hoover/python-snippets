@@ -1,0 +1,13 @@
+"Line","Route Length","Tunnel","Open","Stations Served","No of Escalators","No of Lifts"
+"Bakerloo","23 kms","11 kms","12 kms",25,29,11
+"Central","74 kms","23 kms","51 kms",49,72,12
+"Circle","21 kms","18 kms","3 kms",27,"See Metropolitan","See Metropolitan"
+"District","64 kms","17 kms","47 kms",60,21,6
+"East London","8 kms","4 kms","4 kms",8,2,4
+"Hammersmith & City","27 kms","12 kms","15 kms",28,"See Metropolitan","See Metropolitan"
+"Jubilee","38 kms","19 kms","19 kms",27,127,34
+"Metropolitan","67 kms","10 kms","57 kms",34,30,2
+"Northern","58 kms","39 kms","19 kms",51,54,21
+"Piccadilly","71 kms","21 kms","50 kms",52,43,17
+"Victoria","21 kms","21 kms","0 kms",16,31,1
+"Waterloo & City","2 kms","2 kms","0 kms",2,"see Central","see Central"

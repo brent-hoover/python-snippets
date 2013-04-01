@@ -1,0 +1,39 @@
+Welcome to the Python Snippets archive!
+---------------------------------------
+
+This archive collects together a large collection of Python Snippets that are useful for learning different aspects of Python
+and application development. These snippets were primarily collected together for use inside Acire; a little program for
+browsing, running and playing with snippets. You can find out more about Acire at http://www.launchpad.net/acire.
+
+
+> Preparing Your Snippet <
+
+To add a snippet to the archive you should first ensure the snippet works and demonstrates the example well.
+
+You should now add the following meta data as comments to the top of the file:
+
+    # [SNIPPET_NAME: A Short Name For The Snippet]
+    # [SNIPPET_CATEGORIES: Category]  <-- see CATEGORIES file for existing categories
+    # [SNIPPET_DESCRIPTION: A single line description of the snippet]
+    # [SNIPPET_AUTHOR: Your Name <your@emailaddress.com>]
+    # [SNIPPET_LICENSE: An Open Source license (from the LICENSES file)]
+    # [SNIPPET_DOCS: http://www.linktoonlinedocs.com, http://www.anotherlink.com]]
+    
+Here is an example:
+ 
+    # [SNIPPET_NAME: Playing a Pipeline]
+    # [SNIPPET_CATEGORIES: GStreamer]
+    # [SNIPPET_DESCRIPTION: Construct and play a pipeline]
+    # [SNIPPET_AUTHOR: Jono Bacon <jono@ubuntu.com>]
+    # [SNIPPET_LICENSE: GPL]
+    # [SNIPPET_DOCS:http://pygstdocs.berlios.de/pygst-tutorial/pipeline.html]
+    
+When adding licenses, please use one of the licenses listed in the LICENSES file.
+
+> Submitting Your Snippet <
+
+You can submit your snippet by first downloading the snippets archive with:
+
+    bzr branch lp:python-snippets
+
+Now add your snippet(s) and file a merge proposal.

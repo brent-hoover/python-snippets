@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>waterworks 0.2.5: Because everyone has their own utility library</title>
+</head>
+<body>
+
+<h1>waterworks (version 0.2.5)</h1>
+
+Collected library tools by David McClosky, Drew Perttula, and Micha
+Elsner.  While Drew and Micha have contributed code, they should not be
+considered on the hook for supporting this code.
+
+<h2>Version history</h2>
+<ul>
+<li>0.1e - (December 29, 2006) <i>e</i> for embarassing, initial "release"
+<li>0.1f - (March 1, 2007) barely less embarassing, some bug fixes and more documentation
+<li>0.2 - (July 13, 2009) still pretty embarassing, several new modules (ClusterMetrics, FunctionPickler, HeapQueue, PrecRec, Probably, robust_apply, TerminalTitle, vimdiff)
+<li>0.2.5 - (June 26, 2010) add QuickColorize, waterworks.Numbers, bugfixes and other minor things
+</ul>
+
+<h2>Contents</h2>
+
+<ul>
+<li><b>AIMA</b> - Provide some widely useful utilities. (not written by us, but slightly modified from the original -- see <a href="http://aima.cs.berkeley.edu/python/readme.html">http://aima.cs.berkeley.edu/python/readme.html</a>)
+<li><b>ClusterMetrics</b> - a metric cluster**** of cluster metrics!
+<li><b>ExitCodes</b> - Create textual descriptions of exit statuses.
+<li><b>FigUtil</b> - Tools for creating tables and figures in papers.
+<li><b>FunctionPickler</b> - Allows you to create pickle-able references to functions.
+<li><b>HeapQueue</b> - A more object-oriented wrapper of the heapq module.
+<li><b>Histogram</b> - Tools for creating and displaying histograms.
+<li><b>IntRange</b> - Integer Range Parser and Generator
+<li><b>IntShelve</b> - Just like shelve, but keys are always integers instead of strings.
+<li><b>LazyList</b> - Lets you treat an interator as a list by filling in the list on demand.
+<li><b>PrecRec</b> - standard calculation of precision, recall and f-score.
+<li><b>Probably</b> - Potentially useful functions for probability, statistics, and machine learning
+<li><b>Selectron</b> - A selecting widget for Tix.
+<li><b>Tailer</b> - <tt>tail -f</tt> for multiple files written natively in Python.
+<li><b>TeXTable</b> - Convert a Python table into a LaTeX/TeX table.
+<li><b>TerminalTitle</b> - Lets you change the title of your terminal in *NIX.
+<li><b>ThreadedJobs</b> - Wraps twisted.python.threadpool in a way that makes more sense to me.
+<li><b>TkGeomSavers</b> - Common geometry behaviors for Tk/Tix
+<li><b>diffprint</b> - Helps visualize diffs by giving you two parallel lists to print.
+<li><b>iterextras</b> - Some useful iterator functions from py2.4 test_itertools.py plus a couple added items
+<li><b>robust_apply</b> - Simple front-end to louie.robustapply.robust_apply.
+<li><b>vimdiff</b> - Simple interface for visualizing differences between two strings using vimdiff (or similar differs)
+</ul>
+
+<h3>Data structure specific collections</h3>
+
+<ul>
+<li><b>waterworks.Dictionaries</b>
+<li><b>waterworks.Files</b>
+<li><b>waterworks.Numbers</b>
+<li><b>waterworks.Processes</b> - for creating system processes
+<li><b>waterworks.Sequences</b> - ists, tuples, etc.
+<li><b>waterworks.Streams</b> - file-like streams
+<li><b>waterworks.Strings</b>
+<li><b>waterworks.Tools</b> - general tools and debugging helpers
+<li><b>waterworks.new_isinstance</b> - version of isinstance which can handle module reload()ing better
+</ul>
+
+<h2>Installation</h2>
+
+Standard Python distutils install (<tt>python setup.py install</tt>) should work.  Please email me if you have any problems.  Most code should work anywhere, some is *NIX/Linux specific.
+
+<h2>Download</h2>
+Source: <tt><a href="http://cs.brown.edu/~dmcc/software/waterworks/waterworks-0.2.tar.gz">http://cs.brown.edu/~dmcc/software/waterworks/waterworks-0.2.tar.gz</a></tt><p>
+
+<h2>License</h2>
+
+<a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>.
+
+<h2>Authors</h2>
+
+David McClosky, primary curator <tt>(dmcc+py AT cs DOT brown DOT edu)</tt><br>
+Homepage: <tt><a href="http://cs.brown.edu/~dmcc/">http://cs.brown.edu/~dmcc/</a></tt><br>
+Software: <tt><a href="http://cs.brown.edu/~dmcc/software.html">http://cs.brown.edu/~dmcc/software.html</a></tt><p>
+
+Drew Perttula <tt>(drewp AT bigasterisk DOT com)</tt><br>
+Homepage: <tt><a href="http://bigasterisk.com/">http://bigasterisk.com/</a></tt><p>
+
+Micha Elsner <tt>(melsner AT cs DOT brown DOT edu)</tt><br>
+Homepage: <tt><a href="http://cs.brown.edu/~melsner/">http://cs.brown.edu/~melsner/</a></tt><br>
+</body>
+</html>

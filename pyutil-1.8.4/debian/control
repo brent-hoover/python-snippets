@@ -1,0 +1,23 @@
+Source: python-pyutil
+Section: python
+Priority: extra
+Maintainer: Ian Eure <ian@simplegeo.com>
+Uploaders: SimpleGeo Nerds <nerds@simplegeo.com>
+Build-Depends: debhelper (>= 7), cdbs (>= 0.4.59), python (>= 2.6), python-central (>= 0.6.11), python-setuptools, pyflakes (>= 0.4), python-coverage (>= 2.85-1), python-twisted, python-setuptools-trial, python-simplejson (>= 2.1.0)
+Standards-Version: 3.8.4
+Homepage: http://github.com/simplegeo/python-geojson/
+XS-Python-Version: 2.6
+
+Package: python-pyutil
+Architecture: all
+XB-Python-Version: ${python:Versions}
+Depends: ${misc:Depends}, ${python:Depends}, python-argparse (>= 0.8), python-zbase32 (>= 1.0), python-simplejson (>= 2.1.0)
+Description: A collection of mature utilities for Python programmers
+ These are a few data structures, classes and functions which we've
+ needed over many years of Python programming and which seem to be of
+ general use to other Python programmers. Many of the modules that
+ have existed in pyutil over the years have subsequently been
+ obsoleted by new features added to the Python language or its
+ standard library, thus showing that we're not alone in wanting tools
+ like these.
+

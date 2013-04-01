@@ -1,0 +1,10 @@
+*.egg
+*.pyc
+debian/python-pyutil
+debian/python-pyutil*.log
+debian/python-pyutil*.debhelper
+debian/*stamp*
+debian/*.substvars
+debian/files
+/build
+pyutil.egg-info/SOURCES.txt
