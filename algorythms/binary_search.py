@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+__name__ = 'Binary Search'
+__category__ = 'algorythms'
+__type__ = 'example'
 
 
 def search(x, nums):

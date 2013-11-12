@@ -1,0 +1,227 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"PYENV",
+				"PYENV_PATH"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"Pack",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/brent/Projects/py/python-snippets/.gitignore",
+		"/Users/brent/Projects/py/python-snippets/core/generatelist.py",
+		"/Users/brent/Projects/py/python-snippets/core/reversetext.py",
+		"/Users/brent/Projects/py/python-snippets/xmpp/xmpp_client.py",
+		"/Users/brent/Projects/py/python-snippets/networking/proxy.py",
+		"/Users/brent/Projects/py/python-snippets/algorythms/binary_search.py",
+		"/Users/brent/Library/Application Support/Sublime Text 3/Packages/User/ShebangSnippet",
+		"/Users/brent/Projects/py/python-snippets/CATEGORIES",
+		"/Users/brent/Projects/py/python-snippets/core/descriptors/descriptors_example.py",
+		"/Users/brent/Projects/py/python-snippets/randpool.py",
+		"/Users/brent/Projects/py/python-snippets/desktopcouch/addattachment.py",
+		"/Users/brent/Projects/py/reportr-py/test_location.py",
+		"/Users/brent/Projects/py/reportr-py/reportr.py",
+		"/Users/brent/.dotfiles/bash/bashrc.symlink",
+		"/Users/brent/.dotfiles/bash/env.zsh",
+		"/Users/brent/.dotfiles/bin/dot",
+		"/Users/brent/.dotfiles/virtualenvwrapper/env.zsh",
+		"/Users/brent/Projects/py/reportr-py/test.py",
+		"/Users/brent/Projects/py/reportr-py/test_model.py",
+		"/Users/brent/.dotfiles/homebrew/brewlist.txt",
+		"/Users/brent/.dotfiles/homebrew/install.sh",
+		"/Users/brent/Projects/py/reportr-py/test_random.py",
+		"/Users/brent/.dotfiles/pyenv/pyenv.zsh",
+		"/Users/brent/Dropbox/PlainText/info.txt",
+		"/Users/brent/.dotfiles/git/gitconfig.symlink",
+		"/Users/brent/Projects/blog/djblog/requirements/local.txt",
+		"/Users/brent/.bash_profile",
+		"/Users/brent/.dotfiles/nvm/env.bash",
+		"/Users/brent/.bashrc",
+		"/Users/brent/.dotfiles/bash/git-prompt.sh",
+		"/Users/brent/.dotfiles/parkme/env.zsh",
+		"/Users/brent/.dotfiles/triggerio/env.zsh",
+		"/Users/brent/.dotfiles/postgresapp/env.zsh",
+		"/Users/brent/virtualenvs/djblog/bin/postactivate",
+		"/usr/local/var/postgres/postgresql.conf",
+		"/Users/brent/.dotfiles/python/python.zsh",
+		"/Users/brent/.dotfiles/bash/.bashrc.symlink",
+		"/Users/brent/.dotfiles/.gitmodules",
+		"/Users/brent/.dotfiles/ec2/env.zsh",
+		"/Users/brent/.dotfiles/gibo/gibo.zsh",
+		"/Users/brent/.dotfiles/gibo/gibo-completions.bash",
+		"/Users/brent/Packages/bash/bash-it/plugins/available/base.plugin.bash",
+		"/Users/brent/test.sh",
+		"/Users/brent/.dotfiles/bash/aliases.zsh",
+		"/Users/brent/.dotfiles/git/env.zsh",
+		"/Users/brent/.dotfiles/bash/prompt.zsh",
+		"/Users/brent/.dotfiles/bash/bootstrap.sh",
+		"/Users/brent/Dropbox/PlainText/postgres/psql_commandline.txt",
+		"/Users/brent/Dropbox/Documents/ParkMe/sql_scripts/get_all_metadata.sql",
+		"/Users/brent/.dotfiles/parkme/replication.sql",
+		"/Users/brent/.dotfiles/bash/bashrc",
+		"/Users/brent/.dotfiles/themes/demula/demula.theme.bash",
+		"/Users/brent/.dotfiles/__init__.py",
+		"/Users/brent/.dotfiles/system/keys.zsh",
+		"/Users/brent/.dotfiles/parkme/config.zsh",
+		"/Users/brent/.dotfiles/zsh/default.zsh",
+		"/var/folders/31/87k25y2x7hl3pqr9cwgyqk7c0000gn/T/chsh.o4XbUE",
+		"/Users/brent/.dotfiles/heroku/env.zsh",
+		"/Users/brent/.dotfiles/j/env.zsh",
+		"/Users/brent/.dotfiles/j/j2/README.markdown",
+		"/Users/brent/Dropbox/PlainText/@tips_for_living.md",
+		"/Users/brent/Dropbox/DropSync/podcasts.opml",
+		"/Users/brent/.dotfiles/ssh/sloat_leastweasel_rsa.pub",
+		"/Users/brent/Dropbox/abcde/abcde.conf"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"~/.dotfiles/",
+			"~/.dotfiles/**/*.zsh"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"virtualenvwrapper",
+			"Darwin",
+			"if [[ \"$ZOS\" = \"OSX\" ]] then"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "python-snippets.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 265.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

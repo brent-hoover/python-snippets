@@ -12,7 +12,7 @@ One piece of metadata is SNIPPET_CATEGORIES. E.g.:
 
 When adding a snippet please try to use one of the following categories if suitable:
 
-
+    algorythms              Examples of class CS algorythms using python
     amqp                    Examples of clients and servers using the AMQP protocol
     csv                     csv Python module, reading and writing CSV files
     commandline             Command-line utilities and examples
@@ -25,17 +25,22 @@ When adding a snippet please try to use one of the following categories if suita
     email                   email related snippets
     functools               Examples of functional programming
     feedparser	            Parsing RSS feeds.
+    generators              Examples of different uses for generators
     flask                   Examples relating to the Flask web framework
     inspect                 inspecting modules
-    os			            os Python module OS related snippets.
+    logging                 Examples of using the elusive logging module, or other ways of doing loggings
+    ncurses                 Examples and Templates
+    os			            Python module OS related snippets.
     core                    Examples that demonstrate core features in the Python language. 
     patterns                Design pattern examples.
     metaprogramming         Classes that create classes etc.
     mqtt                    Examples of clients and servers using the MQTT prorotol
     networking              Networking examples
     patterns                Examples of python implementations of Gang-of-Four style patterns
+    path                    Various idioms for modifying the path, sys.path, PATH or others (PYTHONPATH, etc)
     regex                   Samples using Regular Expressions
     salt                    Examples or templates for building Salt infrastructure
+    scripts                 Stand-alone commandline scripts
     sphinx                  Examples and extensions for the Sphinx documentation framework
     string                  String manipulation
     testing                 Testing examples
@@ -51,4 +56,3 @@ When adding a snippet please try to use one of the following categories if suita
 
 Also classify the snippet as a "template" or an "example". A template is a commonly-used idiom that you want to just cut and paste in or use Jinja or another template language to create. An example is meant to be read more than used although focus is always on usuable pieces of code.
 
-If you need another category, add it to your snippet and to the list above. Thanks!

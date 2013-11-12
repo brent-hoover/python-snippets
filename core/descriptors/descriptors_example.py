@@ -1,4 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 class MyPropertyDescriptor(object):
+    """
+    This object defines how the property "neighborhoods" will be used on
+    any object that uses it.
+    """
 
     def __get__(self, instance, owner):
         # Use a private variable to avoid calling the getter recursively
