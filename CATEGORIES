@@ -8,46 +8,47 @@ This will make it easier for programs to browse and make use of your snippet.
 
 One piece of metadata is SNIPPET_CATEGORIES. E.g.:
 
-    # [SNIPPET_CATEGORIES: PyGTK]
+    # [SNIPPET_CATEGORIES: patterns]
 
 When adding a snippet please try to use one of the following categories if suitable:
 
-    Application Indicator   Application indicator examples.
-    bzrlib                  Bazaar source control system Python module.
-    Cairo		            Cairo drawing examples
-    Clutter                 Clutter toolkit examples.
+
+    amqp                    Examples of clients and servers using the AMQP protocol
     csv                     csv Python module, reading and writing CSV files
-    dbus        	    dbus messaging system
-    doctest		    The doctest module.
-    DesktopCouch            DesktopCouch examples.
-    email		    email related snippets
+    commandline             Command-line utilities and examples
+    concurrency             Different ways of introducing concurrency (gevent, etc)
+    cookiecutter            Templates for the cookiecutter tool by Audrey Roy
+    cryptography            Cryptography examples
+    datatypes               Examples introducing new datatypes, or using built-in ones
+    database                Examples of using or creating different databases
+    django                  Django-related examples 1.4 and later
+    email                   email related snippets
+    functools               Examples of functional programming
     feedparser	            Parsing RSS feeds.
-    gconf                   GNOME configuration manager snippets.
-    gobject		            The gobject library, part of GNOME.
-    Gstreamer               Python-gstreamer examples.
-    Gwibber	                Gwibber microblogging tool
+    flask                   Examples relating to the Flask web framework
     inspect                 inspecting modules
-    launchpadlib            Samples using launchpadlib.
-    Notify OSD              Notify OSD examples.
     os			            os Python module OS related snippets.
-    OpenOffice.org	    Snippets the handle OpenOffice.org files.
-    PyGTK                   PyGTK widget and framework examples.
-    PyGTKSourceView         PyGTKSourceView widget and framework examples.
-    Python Core             Examples that demonstrate core features in the Python language.
-    Python VTE              Snippets using the VTE widget for GTK.
-    PyTurtle                Turtle Python module examples.
-    PyKDE4                  KDE Python bindings.
-    PyQt4                   PyQt4 widget examples
-    Patterns                Design pattern examples.
-    Regular Expression      Samples using Regular Expressions
-    smtplib		    sending mail with smtplib
-    socket                  Networking socket examples
-    tarfile		            Samples using tarfile.
-    Testing                 Examples using Python test frameworks.
+    core                    Examples that demonstrate core features in the Python language. 
+    patterns                Design pattern examples.
+    metaprogramming         Classes that create classes etc.
+    mqtt                    Examples of clients and servers using the MQTT prorotol
+    networking              Networking examples
+    patterns                Examples of python implementations of Gang-of-Four style patterns
+    regex                   Samples using Regular Expressions
+    salt                    Examples or templates for building Salt infrastructure
+    sphinx                  Examples and extensions for the Sphinx documentation framework
+    string                  String manipulation
+    testing                 Testing examples
     threading               Threading examples
-    twitter		    Microblog with the twitter module. The gwibber module can also do this.
-    unittest		    The unittest module for unit testing.
-    xml			    xml module snippets.
-    Zeitgeist               Samples on how to use Zeitgeist.
+    tornado                 Examples related to the Tornado Web Framework
+    unittest                The unittest module for unit testing.
+    unicode                 Examples of ways to work around the wiles of Unicode
+    web                     Examples related to general web topics not under frameworks
+    websocket               Examples of clients and servers using the Websocket protocol
+    wsgi                    Example of using or extending the WSGI standard
+    xml                     Parsing, writing, etc. of the dreaded XML
+    xmpp                    Examples of clients and servers using the XMPP (jabber) protocol
+
+Also classify the snippet as a "template" or an "example". A template is a commonly-used idiom that you want to just cut and paste in or use Jinja or another template language to create. An example is meant to be read more than used although focus is always on usuable pieces of code.
 
 If you need another category, add it to your snippet and to the list above. Thanks!
