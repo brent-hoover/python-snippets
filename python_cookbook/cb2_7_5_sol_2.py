@@ -1,1 +1,0 @@
-s = cPickle.dumps(r)

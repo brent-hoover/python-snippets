@@ -1,2 +1,0 @@
-anInstance = SomeName()
-another = SomeName()

@@ -1,1 +1,0 @@
-import cgitb; cgitb.enable()

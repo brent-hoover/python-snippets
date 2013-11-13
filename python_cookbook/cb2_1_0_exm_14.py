@@ -1,1 +1,0 @@
-mystr+'oid'     # 'my stringoid'

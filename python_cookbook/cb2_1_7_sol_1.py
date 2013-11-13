@@ -1,1 +1,0 @@
-revchars = astring[::-1]

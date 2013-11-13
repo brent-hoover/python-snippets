@@ -1,1 +1,0 @@
-largeString = ''.join(pieces)

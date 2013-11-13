@@ -1,1 +1,0 @@
-mystring = mystring.expandtabs()

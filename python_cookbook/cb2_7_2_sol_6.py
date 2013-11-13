@@ -1,5 +1,0 @@
-inf = open('datafile.txt')
-a = cPickle.load(inf)
-b = cPickle.load(inf)
-c = cPickle.load(inf)
-inf.close()

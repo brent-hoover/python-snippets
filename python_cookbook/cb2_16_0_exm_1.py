@@ -1,1 +1,0 @@
-fields = line.split(':')

@@ -1,1 +1,0 @@
-del results[:length-overlap]

@@ -1,1 +1,0 @@
-$ twistd -ony AsyncBeatServer.py

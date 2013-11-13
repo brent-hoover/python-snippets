@@ -1,3 +1,0 @@
-def somename(self, *args):
-    ## ...some preliminary task...
-    return cls.super(*args)

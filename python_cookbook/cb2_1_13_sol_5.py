@@ -1,1 +1,0 @@
-chars = list(theline)

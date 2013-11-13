@@ -1,1 +1,0 @@
-redata = marshal.loads(bytes)

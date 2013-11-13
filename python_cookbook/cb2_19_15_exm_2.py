@@ -1,1 +1,0 @@
-yield items[:0]

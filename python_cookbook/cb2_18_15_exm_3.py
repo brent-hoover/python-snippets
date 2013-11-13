@@ -1,1 +1,0 @@
-arr = list(arr)

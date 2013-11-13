@@ -1,1 +1,0 @@
-line = line.rstrip('\n')

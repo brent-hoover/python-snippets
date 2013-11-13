@@ -1,1 +1,0 @@
-revchars = ''.join(reversed(astring))

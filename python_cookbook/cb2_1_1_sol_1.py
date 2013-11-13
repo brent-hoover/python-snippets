@@ -1,1 +1,0 @@
-thelist = list(thestring)

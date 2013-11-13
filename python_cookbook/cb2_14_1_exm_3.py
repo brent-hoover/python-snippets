@@ -1,1 +1,0 @@
-sys.stderr = sys.stdout
