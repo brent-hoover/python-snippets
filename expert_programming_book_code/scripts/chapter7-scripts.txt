@@ -1,0 +1,109 @@
+[buildout]
+parts =
+    part1
+    part2
+[part1]
+recipe = my.recipe1
+[part2]
+recipe = my.recipe2
+[buildout]
+parts = 
+develop = 
+    /home/tarek/dev/atomisator.feed
+find-links = 
+    <text:a xlink:type="simple" xlink:href="http://acme.com/packages/index">http://acme.com/packages/index</text:a>
+[buildout]
+parts = 
+develop = 
+    /home/tarek/dev/atomisator.feed
+[buildout]
+parts = 
+    test
+develop = 
+    /home/tarek/dev/atomisator.feed
+[test]
+recipe = zc.recipe.egg
+eggs =
+    nose
+[buildout]
+parts = 
+    test
+     other
+develop = 
+    /home/tarek/dev/atomisator.feed
+
+
+
+[test]
+recipe = zc.recipe.egg
+eggs =
+    nose
+[other]
+recipe = zc.recipe.egg
+eggs =
+    elementtree
+    PIL
+...
+[buildout]
+develop = 
+    ../packages/atomisator.main
+    ../packages/atomisator.db
+    ../packages/atomisator.feed
+    ../packages/atomisator.parser
+parts = 
+    test
+[test]
+recipe = pbp.recipe.noserunner
+eggs = 
+    atomisator.main
+    atomisator.db
+    atomisator.feed
+    atomisator.parser 
+...
+[atomisator-configuration]
+recipe = atomisator.recipe.installer
+
+sites = 
+    sample1.xml
+    sample2.xml
+
+database = sqlite:///
+
+title = My Feed
+description = The feed
+link = the link
+
+file = ${buildout:directory}/var/atomisator.xml
+...
+$ python setup.py sdist
+running sdist
+...
+Writing atomisator.db-0.1.0/setup.cfg
+tar -cf dist/atomisator.db-0.1.0.tar atomisator.db-0.1.0
+gzip -f9 dist/atomisator.db-0.1.0.tar
+removing 'atomisator.db-0.1.0' (and everything under it)
+$ ls dist/
+atomisator.db-0.1.0.tar.gz
+[buildout]
+extends = buildout.cfg
+develop = 
+parts = 
+    atomisator
+    eggs
+download-cache = downloads
+[atomisator]
+recipe = zc.recipe.eggs
+eggs = 
+    atomisator.main
+    atomisator.db
+    atomisator.feed
+    atomisator.parser
+$ bin/buildout -c release.cfg -v
+Installing 'zc.buildout', 'setuptools'.
+
+
+...
+Installing atomisator.
+Installing 'atomisator.db', 'atomisator.feed', 'atomisator.parser', 'atomisator.main'.
+...
+Picked: setuptools = 0.6c8

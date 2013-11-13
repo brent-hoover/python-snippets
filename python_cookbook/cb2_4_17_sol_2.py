@@ -1,0 +1,1 @@
+union = dict(a, **b)

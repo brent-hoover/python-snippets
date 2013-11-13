@@ -1,0 +1,1 @@
+output.write(s)

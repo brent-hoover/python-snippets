@@ -8,8 +8,9 @@
 # [SNIPPET_DOCS: http://docs.python.org/library/os.html, http://diveintopython.org/file_handling/os_module.html]
 
 import os
+import sys
 
-def look_in_directory(directory):
+def look_in_directory(directory, file_to_find):
     """Loop through the current directory for the file, if the current item
        is a directory, it recusively looks through that folder"""
 
@@ -31,10 +32,13 @@ def look_in_directory(directory):
             if look_in_directory(os.path.join(directory, f)):
                 return True
 
-# we will look for the file recursively
-file_to_find = "jono.png"
-# Start looking in the home directory (~)
-# If it is not found, ie it did not return True, tell the user it was "Not
-# Found"
-if look_in_directory(os.path.expanduser("~")) != True:
+if __name__ == '__main__':
+
+    # we will look for the file recursively
+    file_to_find = sys.argv[1]
+
+    # Start looking in the home directory (~)
+    # If it is not found, ie it did not return True, tell the user it was "Not
+    # Found"
+    if look_in_directory(os.path.expanduser("~"), file_to_find) != True:
     print "Not Found"

@@ -1,0 +1,6 @@
+result = dict(enumerate(myseq))
+result = set(word for line in page for word in line.split())
+def dotproduct(v1, v2): return sum(itertools.imap(operator.mul, v1, v2))
+def dotproduct(v1, v2): return sum(x*y for x,y in itertools.izip(v1, v2))
+randgen = itertools.starmap(random.random, itertools.repeat(()))
+randgen = iter(random.random, -1.0)

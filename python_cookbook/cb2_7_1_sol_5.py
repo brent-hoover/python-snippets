@@ -1,0 +1,5 @@
+inf = open('datafile.dat', 'rb')
+a = marshal.load(inf)
+b = marshal.load(inf)
+c = marshal.load(inf)
+inf.close()

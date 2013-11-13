@@ -1,0 +1,298 @@
+...
+setup(name='atomisator.parser',
+      version=version,
+      description=("A thin layer on the top of "
+                   "the Universal Feed Parser"),
+      long_description=long_description,
+      classifiers=classifiers,
+      keywords='python best practices',
+      author='Tarek Ziade',
+      author_email='tarek@ziade.org',
+      url='http://atomisator.ziade.org',
+      license='GPL',
+      packages=find_packages(exclude=['ez_setup']),
+      namespace_packages=['atomisator'],
+      include_package_data=True,
+      zip_safe=False,
+
+
+      install_requires=[
+          'setuptools',
+          '<text:span text:style-name="T3">feedparser</text:span>'
+          # -*- Extra requirements: -*-
+      ],
+      entry_points="""
+      # -*- Entry points: -*-
+      """,
+      )
+...
+=================
+atomisator.parser
+=================
+The parser knows how to return a feed content, with
+the `parse` function, available as a top-level function::
+    >>> from atomisator.parser import parse
+This function takes the feed url and returns an iterator
+over its content. A second parameter can specify a maximum
+number of entries to return. If not given, it is fixed to 10::
+    >>> res = parse('http://example.com/feed.xml')
+    >>> res
+    <generator ...>
+Each item is a dictionary that contain the entry::
+
+
+    >>> res.next()
+...
+>>> res = parse(os.path.join(test_dir, '<text:a xlink:type="simple" xlink:href="http://example.com/feed.xml">sample.xml</text:a>'))
+...
+from feedparser import parse as feedparse
+from itertools import islice
+from itertools import imap
+                                                                           
+def _filter_entry(entry):
+    """Filters entry fields."""     
+    entry['links'] = [link['href'] for link in entry['links']]     
+    return entry     
+                                                                           
+def parse(url, size=10):                                                   
+    """Returns entries of the feed."""     
+    result = feedparse(url)     
+    return islice(imap(_filter_entry, 
+                        result['entries']), size)
+...
+Each item is a dictionnary that contain the entry::
+    >>> entry = res.next()
+    >>> entry['title']
+    u'CSSEdit 2.0 Released'
+The keys available are:
+    >>> keys = sorted(entry.keys())
+
+
+    >>> list(keys)
+    ['id', 'link', 'links', 'summary', 'summary_detail', 
+     'tags', 'title', 'title_detail']
+>>> if big_daddy_server:
+...     sqluri = 'postgres://tarek@localhost/database' 
+
+... else:
+...     sqluri = 'sqlite://relative/path/to/database.db'
+from sqlalchemy import *                                                                            
+from sqlalchemy.orm import *
+from sqlalchemy.orm import mapper
+    
+metadata = MetaData()       
+link = Table('atomisator_link', metadata,
+             Column('id', Integer, primary_key=True),              
+             Column('url', String(300)),              
+             Column('atomisator_entry_id', Integer,              
+                    ForeignKey('atomisator_entry.id')))                     
+                                                                           
+class Link(object):
+    def __init__(self, url):     
+        self.url = url
+
+
+    
+    def __repr__(self):     
+        return "<Link('%s')>" % self.url         
+                                                                           
+mapper(Link, link)                                                         
+                                                                           
+tag = Table('atomisator_tag', metadata,                                    
+            Column('id', Integer, primary_key=True),             
+            Column('value', String(100)),             
+            Column('atomisator_entry_id', Integer,             
+                   ForeignKey('atomisator_entry.id')))                    
+                                                                           
+class Tag(object):
+    def __init__(self, value):
+        self.value = value
+    def __repr__(self):
+        return "<Tag('%s')>" % self.value
+mapper(Tag, tag)
+entry = Table('atomisator_entry', metadata,
+              Column('id', Integer, primary_key=True),
+              Column('url', String(300)),
+              Column('date', DateTime()),
+              Column('summary', Text()),
+              Column('summary_detail', Text()),
+              Column('title', Text()),
+              Column('title_detail', Text()))
+class Entry(object):
+    def __init__(self, title, url, summary, summary_detail='',
+                 title_detail=''):
+        self.title = title
+        self.url = url
+        self.summary = summary
+        self.summary_detail = summary_detail
+        self.title_detail = title_detail
+    def add_links(self, links):
+        for link in links:
+            self.links.append(Link(link))
+    def add_tags(self, tags):
+        for tag in tags:
+            self.tags.append(Tag(tag))
+    def __repr__(self):
+
+
+        return "<Entry(%r)>" % self.title
+mapper(Entry, entry, properties={
+       'links':relation(Link, backref='atomisator_entry'),
+       'tags':relation(Tag, backref='atomisator_entry'),
+       })
+=============
+atomisator.db
+=============                                                               
+This package provides a few mappers to store feed entries                  
+in a SQL database.                                                         
+The SQL uri is provided in the config module::                             
+    >>> from atomisator.db import config     
+    >>> config.SQLURI = 'sqlite://:memory:'     
+Let's create an entry::                                                    
+                                                                           
+    >>> from atomisator.db import create_entry     
+    >>> entry = {'url': 'http://www.python.org/news',     
+    ...     'summary': 'Summary goes here',     
+    ...     'title': 'Python 2.6alpha1 and 3.0alpha3 released',     
+    ...     'links': ['http://www.python.org'],     
+    ...     'tags': ['cool', 'fun']}     
+    >>> id_ = create_entry(entry)
+
+
+    >>> type(id_)
+    <type 'int'>
+We get the database id back. Now let's look for entries::
+    >>> from atomisator.db import get_entries
+    >>> entries = get_entries() 
+# returns a generator object
+    >>> entries.next()
+    <Entry('Python 2.6alpha1 and 3.0alpha3 released')>
+Some filtering can be done ::
+    >>> entries = \ 
+    ...     get_entries(url='http://www.python.org/news')
+    >>> entries.next()
+    <Entry('Python 2.6alpha1 and 3.0alpha3 released')>
+When no entry is found, the generator is empty::
+    >>> entries = get_entries(url='xxxx')
+    >>> entries.next()
+    Traceback (most recent call last):
+    ...
+    StopIteration
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<channel>
+<title><![CDATA[${channel.title}]]></title>
+<description><![CDATA[${channel.description}]]></description>
+<link>${channel.link}</link>
+<language>en</language>
+<copyright>Copyright 2008, Atomisator</copyright>
+
+
+<pubDate>${publication_date}</pubDate>
+<lastBuildDate>${build_date}</lastBuildDate>
+#for $entry in $entries
+  <item>
+    <title><![CDATA[${entry.title}]]></title>
+    <description><![CDATA[${entry.summary}]]></description>
+    <link><![CDATA[${entry.url}]]></link>
+    <pubDate>${entry.date}</pubDate>
+  </item>
+#end for
+</channel>
+</rss>
+===============
+atomisator.feed
+===============
+Generates a feed using a template::
+    >>> from atomisator.feed import generate
+    >>> print generate('feed', 'the feed', 'http://link')
+    <?xml version="1.0" encoding="utf-8"?>
+    <rss version="2.0" xmlns:rdf="...">
+    <channel>
+    <title><![CDATA[feed]]></title>
+    <description><![CDATA[the feed]]></description>
+    <link>http://link</link>
+    <language>en</language>
+    ...
+    <item>
+      <title><![CDATA[Python 2.6alpha1 and 
+                        3.0alpha3 released]]></title>
+      <description><![CDATA[Summary goes here]]></description>
+      <link><![CDATA[http://www.python.org/news]]></link>
+      <pubDate>...</pubDate>
+    </item>
+    ...
+    </channel>
+    </rss>
+[atomisator]
+# feeds to read 
+sites = 
+    sample1.xml
+    sample2.xml
+# database location
+database = sqlite:///atomisator.db
+# fields used for the channel
+title = My Feed
+description = The feed
+link = the link
+# name of the generated file
+file = atomisator.xml
+from atomisator.main.config import parser
+from atomisator.parser import parse 
+from atomisator.db import config
+from atomisator.db import create_entry
+from atomisator.feed import generate
+config.SQLURI = parser.database
+def _log(msg):
+    print msg
+def load_feeds():
+    """Fetches feeds."""
+    for count, feed in enumerate(parser.feeds):
+        _log('Parsing feed %s' % feed)
+        for entry in parse(feed):
+            count += 1
+            create_entry(entry) 
+    _log('%d entries read.' % count+1)
+def generate_feed():
+
+
+    """Creates the meta-feed."""    
+    _log('Writing feed in %s' % parser.file) 
+    feed = generate(parser.title, 
+                    parser.description, parser.link) 
+    f = open(parser.file, 'w')
+    try:
+        f.write(feed)
+    finally:
+        f.close()
+    _log('Feed ready.')
+def atomisator():
+    """Calling both."""
+    load_feeds()
+    generate_feed()
+...
+entry_points = {
+    "console_scripts": [
+        "load_feeds = atomisator.main:load_feeds",
+        "generate_feed = atomisator.main:generate_feed",
+        "atomisator = atomisator.main:atomisator"
+    ]
+}
+...
+...
+      install_requires=[
+          'atomisator.db',
+          'atomisator.feed',
+          'atomisator.parser'
+      ],
+...
+version = '1.4.6'
+...
+      install_requires=[
+
+
+          'atomisator.db>=1.4.4',
+          'atomisator.feed',
+          'atomisator.parser'
+      ],
+…

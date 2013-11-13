@@ -1,0 +1,2 @@
+anInstance = SomeName()
+another = SomeName()

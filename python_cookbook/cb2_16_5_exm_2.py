@@ -1,0 +1,1 @@
+parts = compose(' '.join, dir)

@@ -1,0 +1,1 @@
+$ python -mmodulefinder main.py

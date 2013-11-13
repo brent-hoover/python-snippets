@@ -1,0 +1,58 @@
+# python startup file
+import readline
+import rlcompleter
+import atexit
+import os
+# tab completion
+readline.parse_and_bind('tab: complete')
+# history file
+histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+try:
+    readline.read_history_file(histfile)
+except IOError:
+    pass
+atexit.register(readline.write_history_file, histfile)
+
+
+del os, histfile, readline, rlcompleter 
+>>> import md5
+>>> md5.<tab>
+md5.__class__         md5.__file__         md5.__name__         md5.__repr__         md5.digest_size         
+md5.__delattr__       md5.__getattribute__ 
+md5.__new__       md5.__setattr__       md5.md5       
+md5.__dict__          md5.__hash__          md5.__reduce__          md5.__str__          md5.new          
+md5.__doc__           md5.__init__           md5.__reduce_ex__           md5.blocksize
+tarek@luvdit:~$ ipython 
+Python 2.4.4 (#2, Apr 
+5 2007, 20:11:18) 
+Type "copyright", "credits" or "license" for more information.
+IPython 0.7.2 -- An enhanced Interactive Python.
+?       -> Introduction to IPython's features.
+%magic 
+-> Information about IPython's 'magic' % functions.
+help    -> Python's own help system.
+object? -> Details about 'object'. ?object also works, ?? prints more.
+In [1]: 
+[build] 
+compiler = mingw32
+
+./configure --enable-multibyte 
+make
+sudo make install 
+set encoding=utf8
+set paste
+set expandtab
+set textwidth=0
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+set backspace=indent,eol,start
+set incsearch
+set ignorecase
+set ruler
+set wildmenu
+set commentstring=\ #\ %s
+set foldlevel=0
+set clipboard+=unnamed   
+syntax on

@@ -1,0 +1,1 @@
+class MyClass(MyClass): pass

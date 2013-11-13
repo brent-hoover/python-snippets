@@ -1,0 +1,1 @@
+thelist = list(thestring)

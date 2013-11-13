@@ -1,0 +1,109 @@
+[collections]
+repositories/ = repositories/
+[web]
+style = gitweb
+push_ssl = false
+AddHandler cgi-script .cgi
+ScriptAliasMatch        ^/hg(.*)        /home/mercurial/atomisator/hgwebdir.cgi$1
+<Directory /home/mercurial/atomisator>
+  Options ExecCGI FollowSymLinks
+
+
+  AllowOverride None
+  AuthType Basic
+  AuthName "Mercurial"
+  AuthUserFile /home/mercurial/atomisator/passwords
+  <LimitExcept GET>
+    Require valid-user
+  </LimitExcept>
+</Directory>
+<VirtualHost *:80>
+  ServerName hg-atomisator.ziade.org
+  CustomLog /home/mercurial/atomisator/access_log combined
+  ErrorLog 
+/home/mercurial/atomisator/error.org.log
+  AddHandler cgi-script .cgi
+  RewriteEngine On
+  DocumentRoot /home/mercurial/atomisator
+  ScriptAliasMatch ^/(.*) /home/mercurial/atomisator/hgwebdir.cgi/$1
+  <Directory /home/mercurial/atomisator>
+    Options ExecCGI FollowSymLinks
+    AllowOverride None
+    AuthType Basic
+    AuthName "Mercurial"
+    AuthUserFile /home/mercurial/atomisator/passwords
+    <LimitExcept GET>
+      Require valid-user
+    </LimitExcept>
+  </Directory>
+</VirtualHost>
+[ui]
+username = Tarek Ziade
+
+
+
+[paths]
+default 
+= http://tarek:secret@atomisator.ziade.org/hg/unstable
+unstable = http://tarek:secret@atomisator .ziade.org/hg/unstable
+stable = http://tarek:secret@atomisator.ziade.org/hg/stable
+[buildout]
+parts =
+    buildmaster
+    linux
+    atomisator
+[buildmaster]
+recipe = collective.buildbot:master<text:span text:style-name="T8"> </text:span>
+project-name = Atomisator project buildbot
+project-url = http://atomisator.ziade.org
+port = 8999
+wport = 9000
+url = http://atomisator.ziade.org/buildbot
+slaves = 
+    linux     ty54ddf32
+[linux]
+recipe = collective.buildbot:slave
+host = localhost
+port = ${buildmaster:port}
+password = ty54ddf32
+
+
+[atomisator]
+recipe = collective.buildbot:project
+slave-names = linux
+repository=http://hg-atomisator.ziade.org/unstable
+vcs = hg
+build-sequence = 
+    ./build
+test-sequence = 
+    buildout/bin/nosetests 
+
+email-notification-sender = <text:a xlink:type="simple" xlink:href="mailto:tarek@ziade.org">tarek@ziade.org</text:a>
+email-notification-recipient = <text:a xlink:type="simple" xlink:href="mailto:tarek@ziade.org">tarek@ziade.org</text:a>
+[poller]
+recipe = collective.buildbot:poller
+repository=<text:a xlink:type="simple" xlink:href="http://atomisator.ziade.org/hg/instable">http://hg-atomisator.ziade.org/unstable</text:a>
+vcs = hg
+user=anonymous
+#!/bin/sh
+cd buildout
+python bootstrap.py
+bin/buildout -v
+[web]
+style = gitweb
+description = Unstable branch
+contact = Tarek <tarek@ziade.org>
+push_ssl = false
+allow_push = *
+[hooks]
+changegroup.buildbot = python:buildbot.changes.hgbuildbot.hook
+[hgbuildbot]
+master = atomisator.ziade.org:8999
+<VirtualHost *:80>
+  ServerName atomisator-buildbot.ziade.org
+  CustomLog /var/log/apache2/bot-access_log combined
+  ErrorLog 
+/var/log/apache2/bot-error.org.log
+  RewriteEngine On
+  RewriteRule ^(.*) http://localhost:9000/$1
+</VirtualHost>

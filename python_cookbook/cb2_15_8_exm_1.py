@@ -1,0 +1,1 @@
+omniidl -bpython fortune.idl

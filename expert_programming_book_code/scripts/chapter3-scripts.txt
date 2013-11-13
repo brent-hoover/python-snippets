@@ -1,0 +1,639 @@
+>>> class distinctdict(dict):
+...     def __setitem__(self, key, value):
+...         try:
+...             value_index = self.values().index(value)
+...             # keys() and values() will return
+...             # corresponding lists 
+...             # as long as the dict is not changed
+...             # between the two calls
+...             # otherwise the dict type does not guarantee
+...             # the ordering.
+...             existing_key = self.keys()[value_index]
+...             if existing_key != key:
+...                 raise DistinctError(("This value already 
+...                                      "exists for '%s'") % \
+...                                        str(self[existing_key]))
+...         except ValueError:
+...             pass
+...
+...         super(distinctdict, self).__setitem__(key, value)
+... 
+>>> my = distinctdict()
+>>> my['key'] = 'value'
+>>> my['other_key'] = 'value'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 14, in __setitem__
+DistinctError: This value already exists for 'value'
+>>> my['other_key'] = 'value2'
+>>> my
+{'other_key': 'value2', 'key': 'value'}
+>>> class folder(list):
+...     def __init__(self, name):
+...         self.name = name
+...     def dir(self):
+...         print 'I am the %s folder.' % self.name
+...         for element in self:
+...             print element
+... 
+
+
+>>> the = folder('secret')
+>>> the
+[]
+>>> the.append('pics')
+>>> the.append('videos')
+>>> the.dir()
+I am the secret folder:
+pics
+videos 
+>>> class Mama(object):     # this is the old way
+...     def says(self):
+...         print 'do your homework'
+
+
+... 
+>>> class Sister(Mama):
+...     def says(self): 
+...         Mama.says(self)
+...         print 'and clean your bedroom'
+... 
+>>> anita = Sister()
+>>> anita.says()
+do your homework
+and clean your bedroom
+>>> class Sister(Mama): 
+# this is the new way
+...     def says(self):
+...         super(Sister, self).says()
+...         print 'and clean your bedroom'
+... 
+>>> class Base1: 
+...     pass 
+... 
+>>> class Base2: 
+...     def method(self): 
+...         print 'Base2' 
+... 
+>>> class MyClass(Base1, Base2): 
+...     pass 
+... 
+>>> here = MyClass() 
+>>> here.method() 
+Base2
+>>> class BaseBase: 
+...     def method(self): 
+...         print 'BaseBase' 
+... 
+>>> class Base1(BaseBase): 
+...     pass 
+... 
+>>> class Base2(BaseBase): 
+...     def method(self): 
+...         print 'Base2' 
+... 
+>>> class MyClass(Base1, Base2): 
+...     pass 
+... 
+>>> here = MyClass() 
+>>> here.method() 
+BaseBase
+>>> class BaseBase(object):
+...     def method(self):
+...         print 'BaseBase'
+... 
+>>> class Base1(BaseBase):
+...     pass
+... 
+>>> class Base2(BaseBase):
+...     def method(self):
+...         print 'Base2'
+... 
+>>> class MyClass(Base1, Base2):
+...     pass
+... 
+>>> here = MyClass()
+>>> here.method()
+Base2
+L[MyClass(Base1, Base2)] = 
+       MyClass + merge(L[Base1], L[Base2], Base1, Base2)
+the linearization of C is the sum of C plus the merge of the linearizations of the parents and the list of the parents
+Take the 
+
+Then repeat the operation until all the class are removed or it is impossible to find good heads. In this case, it is impossible to construct the merge, Python 2.3 will refuse to create the class MyClass and will raise an exception.
+>>> def L(klass):
+...     return [k.__name__ for k in klass.__mro__]
+... 
+>>> L(MyClass)
+['MyClass', 'Base1', 'Base2', 'BaseBase', 'object']
+>>> class A(object):
+...     def __init__(self):
+...         print "A"
+...         super(A, self).__init__()
+... 
+>>> class B(object):
+...     def __init__(self):
+...         print "B"
+...         super(B, self).__init__()
+... 
+>>> class C(A,B):
+...     def __init__(self):
+...         print "C"
+...         A.__init__(self)
+...         B.__init__(self)
+... 
+>>> print "MRO:", [x.__name__ for x in C.__mro__]
+MRO: ['C', 'A', 'B', 'object']
+>>> C()
+C A B B
+<__main__.C object at 0xc4910>
+>>> from SimpleHTTPServer import SimpleHTTPRequestHandler
+>>> SimpleHTTPRequestHandler.__mro__
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: class SimpleHTTPRequestHandler has no attribute '__mro__'
+>>> from collections import deque
+>>> deque.__mro__
+(<type 'collections.deque'>, <type 'object'>)
+>>> from random import Random
+>>> random.Random.__mro__
+(<class 'random.Random'>, <type '_random.Random'>, <type 'object'>)
+>>> from zope.app.container.browser.adding import Adding
+>>> Adding.__mro__
+(<class 'zope.app.container.browser.adding.Adding'>, 
+
+<class 'zope.publisher.browser.BrowserView'>, 
+
+<class 'zope.location.location.Location'>, 
+
+<type 'object'>)
+>>> class BaseBase(object):
+...     def __init__(self):
+...         print 'basebase'
+...         super(BaseBase, self).__init__()         
+... 
+>>> class Base1(BaseBase):
+...     def __init__(self):
+...         print 'base1'
+...         super(Base1, self).__init__()         
+... 
+>>> class Base2(BaseBase):
+...     def __init__(self, arg):
+...         print 'base2'
+...         super(Base2, self).__init__()         
+... 
+>>> class MyClass(Base1 , Base2):
+...     def __init__(self, arg):
+...         print 'my base'
+...         super(MyClass, self).__init__(arg) 
+... 
+>>> m = MyClass(10)
+my base
+
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 4, in __init__
+TypeError: __init__() takes exactly 1 argument (2 given) 
+>>> class BaseBase(object):
+...     def __init__(self, *args, **kw):
+...         print 'basebase'
+...         super(BaseBase, self).__init__(*args, **kw) 
+
+... 
+>>> class Base1(BaseBase):
+...     def __init__(self, *args, **kw):
+...         print 'base1'
+...         super(Base1, self).__init__(*args, **kw)         
+... 
+>>> class Base2(BaseBase):
+...     def __init__(self, arg, *args, **kw):
+...         print 'base2'
+...         super(Base2, self).__init__(*args, **kw) 
+... 
+>>> class MyClass(Base1 , Base2):
+...     def __init__(self, arg):
+...         print 'my base'
+...         super(MyClass, self).__init__(arg)
+... 
+>>> m = MyClass(10)
+my base
+base1
+base2
+basebase
+>>> class MyClass(object):
+...     __secret_value = 1
+... 
+>>> instance_of = MyClass()
+>>> instance_of.__secret_value
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'MyClass' object has no attribute '__secret_value'
+>>> dir(MyClass)
+['_MyClass__secret_value', '__class__', '__delattr__', '__dict__', '__doc__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__str__', '__weakref__']
+>>> instance_of._MyClass__secret_value
+1
+# 1- looking for definition
+if hasattr(MyClass, 'attribute'):
+    attribute = MyClass.attribute
+    AttributeClass = attribute.__class__
+
+    # 2 - does attribute definition have a getter ?    
+    readable = hasattr(AttributeClass, '__get__')
+
+    # 3 - does attribute definition have a setter,
+    #     or 'attribute' is not found in __dict__
+    writable = (hasattr(AttributeClass, '__set__') or 
+                'attribute' not in instance.__dict__)
+
+    if readable and writable:
+        # 4 – let’s call the descriptor 
+        return AttributeClass.__get__(attribute,
+                                      instance, MyClass)
+
+# 5 - regular access with __dict__
+return instance.__dict__['attribute']
+>>> class UpperString(object):
+...     def __init__(self):
+...         self._value = ''
+...     def __get__(self, instance, klass):
+...         return self._value 
+...     def __set__(self, instance, value):
+...         self._value = value.upper()
+... 
+>>> class MyClass(object):
+...    attribute = UpperString()
+... 
+>>> instance_of = MyClass()
+>>> instance_of.attribute
+''
+>>> instance_of.attribute = 'my value'
+>>> instance_of.attribute
+'MY VALUE'
+>>> instance.__dict__ = {}
+>>> instance_of.new_att 
+= 1
+>>> instance_of.__dict__
+{'new_att': 1}
+>>> MyClass.new_att = MyDescriptor()
+>>> instance_of.__dict__
+{'new_att': 1}
+>>> instance_of.new_att 
+''
+>>> instance_of.new_att = 'other value'
+>>> instance_of.new_att 
+'OTHER VALUE'
+>>> instance_of.__dict__
+{'new_att': 1}
+>>> class Whatever(object):
+...     def __get__(self, instance, klass):
+...         return 'whatever'
+... 
+>>> MyClass.whatever = Whatever()
+>>> 
+{'new_att': 1}
+>>> instance_of.whatever
+'whatever'
+>>> instance_of.whatever = 1
+>>> instance_of.__dict__
+{'new_att': 1, 'whatever': 1}
+# 1- looking for definition
+if hasattr(MyClass, 'attribute'):
+    attribute = MyClass.attribute
+    AttributeClass = attribute.__class__
+
+    # 2 - does attribute definition has a setter ?    
+    if hasattr(AttributeClass, '__set__'):
+        # let's use it
+        AttributeClass.__set__(attribute, instance, 
+                               value)
+        return
+# 3 - regular way
+instance.__dict__['attribute'] = value
+>>> class API(object):
+...     def _print_values(self, obj):
+...         def _print_value(key):
+...             if key.startswith('_'):
+...                 return ''
+...             value = getattr(obj, key)
+...             if not hasattr(value, 'im_func'):
+...                 doc = type(value).__name__
+...             else:
+...                 if value.__doc__ is None:
+...                     doc = 'no docstring'
+...                 else:
+...                     doc = value.__doc__
+...             return '             %s : %s' % (key, doc)
+...         res = [_print_value(el) for el in dir(obj)]
+...         return '\n'.join([el for el in res 
+...                           if el != ''])
+...     def __get__(self, instance, klass):
+...         if instance is not None:
+...             return self._print_values(instance)
+...         else:
+...             return self._print_values(klass)
+... 
+>>> class MyClass(object):
+...     __doc__ = API()
+...     def __init__(self):
+...         self.a = 2
+...     def meth(self):
+...         """my method"""
+...         return 1
+... 
+>>> MyClass.__doc__
+'    meth : my method'
+>>> instance = MyClass()
+>>> print instance.__doc__
+    a : int
+    meth : my method
+>>> class Chainer(object):
+...     def __init__(self, methods, callback=None):
+...         self._methods = methods
+...         self._callback = callback
+...     def __get__(self, instance, klass):
+...         if instance is None:
+...             # only for instances
+...             return self
+...         results = []
+...         for method in self._methods:
+...             results.append(method(instance))
+...             if self._callback is not None:
+...                 if not self._callback(instance,
+...                                       method,
+...                                       results):
+...                     break
+...         return results 
+>>> class TextProcessor(object):
+...     def __init__(self, text):
+...         self.text = text
+...     def normalize(self):
+...         if isinstance(self.text, list):
+...             self.text = [t.lower() 
+...                          for t in self.text]
+...         else:
+...             self.text = self.text.lower()
+...     def split(self): 
+...         if not isinstance(self.text, list):
+...             self.text = self.text.split()
+...     def treshold(self):
+...         if not isinstance(self.text, list):
+...             if len(self.text) < 2:
+...                 self.text = ''
+...         self.text = [w for w in self.text 
+...                      if len(w) > 2]
+... 
+>>> def logger(instance, method, results):
+...     print 'calling %s' % method.__name__
+...     return True
+... 
+>>> def add_sequence(name, sequence): 
+...     setattr(TextProcessor, name,
+...             Chainer([getattr(TextProcessor, n) 
+...                      for n in sequence], logger))
+... 
+>>> add_sequence('simple_clean', ('split', 'treshold'))
+>>> my = TextProcessor(' My Taylor is   Rich ')
+>>> my.simple_clean
+calling split
+calling treshold
+[None, None]
+>>> my.text
+['Taylor', 'Rich']
+
+>>> # let's perform another sequence
+...
+>>> add_sequence('full_work', ('normalize',
+...                                        'split', 'treshold'))
+>>> my.full_work
+calling normalize
+calling split
+calling treshold
+[None, None, None]
+>>> my.text
+['taylor', 'rich']
+>>> class MyClass(object):
+...     def __init__(self):
+
+
+...         self._my_secret_thing = 1
+...
+...     def _i_get(self):
+...         return self._my_secret_thing
+...
+...     def _i_set(self, value):
+...         self._my_secret_thing = value
+...
+...     def _i_delete(self):
+...         print 'neh!'
+...
+...     my_thing = property(_i_get, _i_set, _i_delete, 
+...                                 
+'the thing')
+... 
+>>> instance_of = MyClass()
+>>> instance_of.my_thing
+1
+>>> instance_of.my_thing = 3
+>>> instance_of.my_thing
+3
+>>> del instance_of.my_thing
+neh !
+>>> help(instance_of)
+Help on MyClass in module __main__ object:
+class MyClass(__built-in__.object)
+
+| 
+Methods defined here:
+
+| 
+
+
+| 
+__init__(self)
+
+| 
+
+
+| 
+----------------------------------------------------
+
+| 
+Data descriptors defined here:
+
+| 
+...
+
+| 
+my_thing
+
+|      the thing
+>>> class FirstClass(object):
+...     def _get_price(self):
+...         return '$ 500'
+...     price = property(_get_price)
+
+
+... 
+>>> class SecondClass(FirstClass):
+...     def _get_price(self):
+...         return '$ 20'
+...   
+... 
+>>> plane_ticket = SecondClass()
+>>> plane_ticket.price
+'$ 500'
+>>> class FirstClass(object):
+...     def _get_price(self):
+...         return '$ 500'
+...     def _get_the_price(self):
+...         return self._get_price()
+...     price = property(_get_the_price)
+... 
+>>> class SecondClass(FirstClass):
+...     def _get_price(self):
+...         return '$ 20'
+... 
+>>> plane_ticket = SecondClass()
+>>> plane_ticket.price
+'$ 20'
+>>> class FirstClass(object):
+...     def _get_price(self):
+...         return '$ 500'
+...     price = property(_get_price)
+... 
+>>> class SecondClass(FirstClass):
+...     def _cheap_price(self):
+...         return '$ 20'
+...     price = property(_cheap_price)
+... 
+>>> plane_ticket = SecondClass()
+>>> plane_ticket.price
+'$ 20'
+>>> class Frozen(object):
+...     __slots__ = ['ice', 'cream']
+... 
+>>> '__dict__' in dir(Frozen)
+False
+>>> 'ice' in dir(Frozen)
+True
+>>> glagla = Frozen()
+>>> glagla.ice = 1
+>>> glagla.cream = 1
+>>> glagla.icy = 1
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'Frozen' object has no attribute 'icy'
+>>> class MyC<text:span text:style-name="T6">lass(object):</text:span>
+...     def __new__(cls):
+
+
+...         print '__new__ called'
+...         return object.__new__(cls) 
+# default factory
+...     def __init__(self):
+...         print '__init__ called'
+...         self.a = 1
+...     
+>>> instance = MyClass()
+__new__ called
+__init__ called
+>>> class MyOtherClassWithoutAConstructor(MyClass):
+...     pass
+... 
+>>> instance = MyOtherClassWithoutAConstructor()
+__new__ called
+__init__ called
+>>> class MyOtherClass(MyClass):
+...     def __init__(self):
+...         print 'MyOther class __init__ called'
+...         super(MyOtherClass, self).__init__()
+...         self.b = 2
+... 
+>>> instance = MyOtherClass()
+__new__ called
+MyOther class __init__ called
+__init__ called
+>>> from threading import Thread
+>>> class MyThread(Thread):
+...     def __init__(self):
+...         pass
+
+
+... 
+>>> MyThread()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/threading.py", line 416, in __repr__
+    assert self.__initialized, "Thread.__init__() was not called"
+AssertionError: Thread.__init__() was not called
+>>> def method(self):
+...     return 1
+... 
+>>> klass = type('MyClass', (object,), {'method': method})
+>>> instance = klass()
+>>> instance.method()
+1
+>>> class MyClass(object):
+...     def method(self):
+...         return 1
+... 
+>>> instance = MyClass()
+>>> instance.method()
+1
+>>> def equip(classname, base_types, dict):
+...     if '__doc__' not in dict:
+...         dict['__doc__'] = API()
+...     return type(classname, base_types, dict)
+... 
+>>> class MyClass(object):
+...     __metaclass__ = equip
+...     def alright(self):
+...         """the ok method"""
+...         return 'okay'
+... 
+>>> ma = MyClass()
+>>> ma.__class__
+<class '__main__.MyClass'>
+>>> ma.__class__.__dict__['__doc__']   # __doc__ is replaced !
+<__main__.API object at 0x621d0>
+>>> ma.y = 6
+>>> print ma.__doc__
+    alright : the ok method
+    y : int
+>>> def enhancer_1(klass):
+...     c = [l for l in klass.__name__ if l.isupper()] 
+
+...     klass.contracted_name = ''.join(c) 
+... 
+>>> def enhancer_2(klass):
+...     def logger(function):
+...         def wrap(*args, **kw):
+...             print 'I log everything !'
+...             return function(*args, **kw)
+...         return wrap
+...     for el in dir(klass):
+...         if el.startswith('_'):
+...             continue
+...         value = getattr(klass, el)
+...         if not hasattr(value, 'im_func'):
+...             continue
+...         setattr(klass, el, logger(value))
+... 
+>>> def enhance(klass, *enhancers):
+...     for enhancer in enhancers:
+...         enhancer(klass)
+... 
+>>> class MySimpleClass(object):
+...     def ok(self):
+...         """I return ok"""
+...         return 'I lied'
+... 
+>>> enhance(MySimpleClass, enhancer_1, enhancer_2)
+>>> thats = MySimpleClass()
+>>> thats.ok()
+I log everything !
+'I lied'
+>>> thats.score
+>>> thats.contracted_name
+'MSC'

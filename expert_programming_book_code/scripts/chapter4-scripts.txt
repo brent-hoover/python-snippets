@@ -1,0 +1,302 @@
+>>> if 'd' not in my_list:
+...     my_list.append('d')
+... 
+>>> from doctest import IGNORE_EXCEPTION_DETAIL
+>>> from doctest import REPORT_ONLY_FIRST_FAILURE
+>>> import os
+>>> try:
+...     os._exit(0)
+... except os.EX_SOFTWARE:
+...     print 'internal softwar error'
+...     raise
+... 
+>>> import doctest
+>>> TEST_OPTIONS = (doctest.ELLIPSIS |
+...                 doctest.NORMALIZE_WHITESPACE | 
+...                 doctest.REPORT_ONLY_FIRST_FAILURE)
+
+
+# config.py
+SQL_USER = 'me'
+SQL_USER = 'tarek'
+SQL_PASSWORD = 'secret'
+SQL_URI = 'postgres://%s:%s@localhost/db' % \
+              (SQL_USER, SQL_PASSWORD)
+MAX_THREADS = 4
+>>> OPTIONS = {}
+>>> def register_option(name):
+...     return OPTIONS.setdefault(name, 1 << len(OPTIONS))
+... 
+>>> def has_option(options, name):
+...     return bool(options & name)
+... 
+>>> # now defining options
+... 
+>>> BLUE = register_option('BLUE')
+>>> RED = register_option('RED')
+>>> WHITE = register_option('WHITE')
+>>> 
+>>> # let's try them
+... 
+>>> SET = BLUE | RED
+>>> has_option(SET, BLUE)
+True
+>>> has_option(SET, WHITE)
+False
+>>> _observers = []
+>>> def add_observer(observer):
+...     _observers.append(observer)
+... 
+>>> def get_observers():
+...     """Makes sure _observers cannot be modified."""
+...     return tuple(_observers)
+...
+>>> class Citizen(object):
+...     def __init__(self):
+...         self._message = 'Go boys'
+...     def _get_message(self):
+...         return self._message
+...     kane = property(_get_message)
+... 
+>>> Citizen().kane
+'Go boys'
+>>> class MeanElephant(object):
+...     def __init__(self):
+...         self._people_to_kill = []
+...     def is_slapped_on_the_butt_by(self, name):
+...         self._people_to_kill.append(name)
+...         print 'Ouch!'
+...     def revenge(self):
+...         print '10 years later...'
+...         for person in self._people_to_kill:
+...             print 'Me kill %s' % person 
+
+... 
+>>> joe = MeanElephant()
+>>> joe.is_slapped_on_the_butt_by('Tarek')
+Ouch!
+>>> joe.is_slapped_on_the_butt_by('Bill')
+Ouch!
+>>> joe.revenge()
+10 years later...
+Me kill Tarek
+Me kill Bill
+>>> class Base(object):
+...     def __secret(self):
+...         print "don't tell"
+...     def public(self):
+...         self.__secret()
+... 
+>>> Base.__secret
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: type object 'Base' has no attribute '__secret'
+>>> dir(Base)
+['_Base__secret', ..., 'public']
+>>> class Derived(Base):
+...     def __secret(self):
+...         print "never ever"
+... 
+>>> Derived().public()
+don’t tell
+>>> class Base(object):
+...     def _Base_secret(self):     # don’t do this !!!
+...         print "you told it ?"
+
+
+... 
+>>> class weirdint(int):
+...     def __add__(self, other):
+...         return int.__add__(self, other) + 1
+...     def __repr__(self):
+...         return '<weirdo %d>' % self
+...     
+...     #
+...     # public API
+...     #
+...     def do_this(self):
+...         print 'this'
+...     def do_that(self):
+...         print 'that'
+>>> class BadHabits(object):
+...     def __my_method__(self):
+...         print 'ok'
+... 
+>>> class Connection(object):
+...     _connected = []
+...     def connect(self, user):
+...         self._connected.append(user)
+...     def _connected_people(self):
+...         return '\n'.join(self._connected)
+...     connected_people = property(_connected_people)
+... 
+>>> my = Connection()
+>>> my.connect('Tarek')
+>>> my.connect('Shannon')
+>>> print my.connected_people
+Tarek
+Shannon
+>>> class Database(object):
+...     def open(self):
+...         pass
+... 
+>>> class User(object):
+...     pass
+...     
+>>> user = User()
+>>> db = Database()
+>>> db.open()
+>>> class DB(object):
+...     is_connected = False
+...     has_cache = False
+... 
+>>> database = DB()
+>>> database.has_cache
+False
+>>> if database.is_connected:
+...     print "That's a powerful class"
+... else:
+...     print "No wonder..."
+... 
+No wonder...
+
+
+>>> class DB(object):
+...     connected_users = ['Tarek']
+...     tables = {'Customer': ['id', 'first_name',
+...                            'last_name']}
+... 
+>>> def bad_citizen():
+...     os = 1
+...     import pdb; pdb.set_trace()
+...     return os
+... 
+
+
+>>> bad_citizen()
+> <stdin>(4)bad_citizen()
+(Pdb) os
+1
+(Pdb) import os
+(Pdb) c
+<module 'os' from '/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5/os.pyc'>
+<text:span text:style-name="Code_20_In_20_Text_20__5b_PACKT_5d_"><text:span text:style-name="T1">>>> def factory(klass, *args, **kw):</text:span></text:span>
+...     return klass(*args, **kw)
+... 
+>>> def fuzzy_thing(**kw):
+...     if 'do_this' in kw:
+...         print 'ok i did'
+...     if 'do_that' in kw:
+...         print 'that is done'
+...     print 'errr... ok'
+... 
+>>> fuzzy_thing()
+errr... ok
+>>> fuzzy_thing(do_this=1)
+ok i did
+errr... ok
+>>> fuzzy_thing(do_that=1)
+that is done
+errr... ok
+>>> fuzzy_thing(hahahahaha=1)
+errr... ok
+>>> def sum(*args):       # okay
+...     total = 0
+...     for arg in args:
+...         total += arg
+...     return total
+... 
+>>> def sum(sequence):    # better !
+...     total = 0
+...     for arg in sequence:
+...         total += arg
+...     return total
+...
+>>> def make_sentence(**kw):
+...     noun = kw.get('noun', 'Bill')
+...     verb = kw.get('verb', 'is')
+...     adj = kw.get('adjective', 'happy')
+...     return '%s %s %s' % (noun, verb, adj)
+... 
+>>> def make_sentence(noun='Bill', verb='is', adjective='happy'):
+...     return '%s %s %s' % (noun, verb, adjective)
+... 
+>>> def log_request(request):     # version 1
+
+
+...     print request.get('HTTP_REFERER', 'No referer')
+... 
+>>> def log_request(request):     # version 2
+...     print request.get('HTTP_REFERER', 'No referer<text:span text:style-name="T1">'</text:span>)
+...     print request.get('HTTP_HOST', 'No host')
+... 
+>><text:span text:style-name="Code_20_In_20_Text_20__5b_PACKT_5d_">> import logging</text:span>
+<text:span text:style-name="Code_20_In_20_Text_20__5b_PACKT_5d_">>>> def log(**context):</text:span>
+<text:span text:style-name="Code_20_In_20_Text_20__5b_PACKT_5d_">...     logging.info('Context is:\n%s\n' % str(context))</text:span>
+<text:span text:style-name="Code_20_In_20_Text_20__5b_PACKT_5d_">... </text:span>
+>>> SMTP.smtp_send() 
+# redundant information in the namespace
+>>> SMTP.send()       # more readable and mnemonic       
+<text:span text:style-name="T1">>>> </text:span>import smtp<text:span text:style-name="T12">lib</text:span>
+<text:span text:style-name="T1">>>> </text:span>import url<text:span text:style-name="T12">lib</text:span>
+>>> import telnet<text:span text:style-name="T12">lib</text:span>
+>>> from widgets.stringwidgets import TextWidget    # bad
+>>> from widgets.strings import TextWidget   # better
+from module1 import feature1, feature2
+from module2 import feature3
+>>> from foo import feature1
+>>> from foo import feature2, feature3
+>>> from script_engine import make_context
+<text:span text:style-name="T1">>>> </text:span>from script_engine import compile
+<text:span text:style-name="T1">>>> </text:span>from script_engine import execute
+<text:span text:style-name="T1">>>> </text:span>context = make_context({'a': 1, 'b':3})
+<text:span text:style-name="T1">>>> </text:span>byte_code = compile('a + b')
+<text:span text:style-name="T1">>>> </text:span>print execute(byte_code)
+4
+>>> from script_engine import run
+>>> print run('a + b', context={'a': 1, 'b':3}) 
+4
+>>> from acme.templates import Template
+>>> from acme.sqlengine import SQLEngine
+>>> from acme.pdfgen import PDFGen
+>>> SQL_URI = 'sqlite:///:memory:'
+>>> def generate_pdf(query, template_name):
+...     data = SQLEngine(SQL_URI).execute(query)
+...     template = Template(template_name)
+...     return PDFGen().create(data, template)     
+>>> from acme import templates
+>>> from acme.sqlengine import SQLEngine
+>>> from acme.pdf import generate
+>>> SQL_URI = 'sqlite:///:memory:'
+>>> def generate_pdf(query, template_name):
+...     data = SQLEngine(SQL_URI).execute(query)
+...     template = templates.generate(template_name)
+...     return generate(data, template)     
+try:
+    __import__('pkg_resources').declare_namespace(__name__)
+except ImportError:
+    from pkgutil import extend_path
+    __path__ = extend_path(__path__, __name__)
+>>> class SomeClass(object):            # version 1
+...     def run_script(self, script, context):
+...         print 'doing the work'
+... 
+>>> import warnings
+>>> class SomeClass(object):            # version 1.5
+...     def run_script(self, script, context):
+...         warnings.warn(("'run_script' will be replaced "
+...                        "by 'run' in version 2"), 
+...                       DeprecationWarning)
+...         return self.run(script, context)
+...     def run(self, script, context=None):
+...         print 'doing the work'
+... 
+>>> SomeClass().run_script('a script', {})
+__main__:4: DeprecationWarning: 'run_script' will be replaced by 'run' in version 2
+doing the work
+>>> SomeClass().run_script('a script', {})
+doing the work
+>>> class SomeClass(object):            # version 2
+...     def run(self, script, context=None):
+...         print 'doing the work'
+...

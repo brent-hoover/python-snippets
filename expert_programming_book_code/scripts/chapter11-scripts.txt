@@ -1,0 +1,240 @@
+>>> import unittest
+>>> class MyTests(unittest.TestCase):
+...     def test_average(self):
+...         self.assertEquals(average(1, 2, 3), 2)
+...         self.assertEquals(average(1, -3), -1)
+...         self.assertEquals(average(0, 1), 0.5)
+...         self.assertRaises(TypeError, average)
+... 
+>>> unittest.main()
+.
+--------------------------------------------------------
+Ran 1 test in 0.000s
+
+
+<text:span text:style-name="Normal_20__5b_PACKT_5d__20_Char"/>
+OK
+import unittest
+from utils import average
+
+class UtilsTests(unittest.TestCase):
+    def test_average(self):
+        self.assertEquals(average(1, 2, 3), 2)
+        self.assertEquals(average(1, -3), -1)
+        self.assertEquals(average(0, 1), 0.5)
+        self.assertRaises(TypeError, average)
+
+if __name__ == '__main__':
+    unittest.main()
+import unittest
+from utils import average
+
+class MyTests(unittest.TestCase):
+    def test_average(self):
+        self.assertEquals(average(1, 2, 3), 2)
+        self.assertEquals(average(1, -3), -1)
+        self.assertEquals(average(0, 1), 0.5)
+        self.assertRaises(TypeError, average)
+
+class MyTests2(unittest.TestCase):
+
+    def test_another_test(self):
+        pass
+
+def test_suite():
+    """builds the test suite."""
+    def _suite(test_class):
+        return unittest.makeSuite(test_class)
+    suite = unittest.TestSuite()
+    suite.addTests((_suite(MyTests), _suite(MyTests2)))
+    return suite
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='test_suite') 
+Check that the computer CPU is not getting too hot::
+
+    >>> 1 + 1
+    2
+
+>>> import doctest
+>>> doctest.testfile('test.txt', verbose=True)
+Trying:
+    1 + 1
+Expecting:
+    2
+ok
+1 items passed all tests:
+   1 tests in test.txt
+1 tests in 1 items.
+1 passed and 0 failed.
+Test passed.
+*** DocTestRunner.merge: 'test.txt' in both testers; summing outcomes.
+(0, 1)
+$ easy_install nose
+Searching for nose
+Reading http://pypi.python.org/simple/nose/
+Reading http://somethingaboutorange.com/mrl/projects/nose/
+
+
+...
+Processing dependencies for nose
+Finished processing dependencies for nose
+$ nosetests -v
+test_average (test_utils.MyTests) ... ok
+test_another_test (test_utils.MyTests2) ... ok
+builds the test suite. ... ok
+--------------------------------------------------------------
+Ran 3 tests in 0.010s
+OK
+def setup():
+    # setup code, launched for the whole module
+    ...
+def teardown():
+    # tear down code, launched for the whole module
+    ... 
+def set_ok():
+    # setup code launched only for test_ok
+    ...
+@with_setup(set_ok)
+def test_ok():
+    print 'my test'
+setup(
+    ...
+    test_suite = 'nose.collector' 
+    ...)
+$ easy_install py
+Searching for py
+Best match: py 0.9.0
+Finished processing dependencies for py
+def setup_module(module):    
+    """ setup up any state specific to the execution     
+        of the given module.         
+    """
+def teardown_module(module):    
+    """ teardown any state that was previously setup     
+        with a setup_module method.         
+    """
+def setup_class(cls):    
+    """ setup up any state specific to the execution     
+        of the given class (which usually contains tests).         
+    """ 
+def teardown_class(cls):    
+    """ teardown any state that was previously setup 
+        with a call to setup_class.         
+    """ 
+def setup_method(self, method):    
+    """ setup up any state tied to the execution of the given     
+        method in a class. setup_method is invoked for every         
+        test method of a class.         
+    """ 
+def teardown_method(self, method):    
+    """ teardown any state that was previously setup     
+        with a setup_method call.         
+    """
+class TestEgSomePosixStuff:    
+    disabled = sys.platform == 'win32'     
+    def test_xxx(self):     
+        ...
+def _disabled():
+    # complex work here
+    return 0
+class Test_2:
+         
+    disabled = _disabled()
+         
+    def test_one(self):
+        pass
+
+
+import smtplib
+import email.Message
+def send(sender, to, subject='None', body='None',
+         server='localhost'):
+    """sends a message."""
+    message = email.Message.Message()
+    message['To'] = to
+    message['From'] = sender
+    message['Subject'] = subject
+    message.set_payload(body)
+    server = smtplib.SMTP(server)
+    try:
+        res = server.sendmail(sender, to, message.as_string())
+    finally:
+        server.quit()
+    return res
+from mailer import send
+from nose.tools import *
+def test_send():
+    
+    res = send('tarek@ziade.org', 'tarek@ziade.org', 
+               'topic', 'body')
+    assert_equals(res, {})
+from mailer import send
+from nose.tools import *
+import smtplib
+def patch_smtp():
+    class FakeSMTP(object):
+        pass
+    smtplib._SMTP = smtplib.SMTP
+    smtplib.SMTP = FakeSMTP
+def unpatch_smtp():
+    smtplib.SMTP = smtplib._SMTP
+    delattr(smtplib, '_SMTP')
+@with_setup(patch_smtp, unpatch_smtp)
+def test_send():
+    res = send('tarek@ziade.org', 'tarek@ziade.org', 
+               'topic', 'body')
+    assert_equals(res, {})
+class FakeSMTP(object):
+    def __init__(self, *args, **kw):
+        # we don't care
+        pass
+    def quit(self):
+        pass
+    def sendmail(self, *args, **kw):
+        return {}
+from mailer import send
+from nose.tools import *
+import smtplib
+from minimock import mock, restore, Mock
+
+def patch_smtp():
+    mock('smtplib.SMTP', 
+         returns=Mock('smtp_connection', 
+                      sendmail=Mock('sendmail',
+                                    returns={})
+                     )
+         )
+
+def unpatch_smtp():
+    restore()
+
+@with_setup(patch_smtp, unpatch_smtp)
+def test_send():
+    res = send('tarek@ziade.org', 
+               'tarek@ziade.org', 'topic', 'body')
+    assert_equals(res, {})
+=================
+atomisator.parser
+=================
+The parser knows how to return a feed content with
+
+
+a function available as a top-level function.
+This function takes the feed url and returns an iterator
+on its content. A second parameter can specify how
+much entries has to be returned before the iterator is
+exhausted. If not given, it is fixed to 10
+=================
+atomisator.parser
+=================
+The parser knows how to return a feed content, with
+the `parse` function, available as a top-level function::
+    >>> from atomisator.parser import parse
+This function takes the feed url and returns an iterator
+on its content. A second parameter can specify how
+much entries has to be returned before the iterator is
+exhausted. If not given, it is fixed to 10::
+    >>> res = parse('http://example.com/feed.xml')
+    >>> res
+    <generator ...>

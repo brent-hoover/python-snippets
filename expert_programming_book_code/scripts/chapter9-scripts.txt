@@ -1,0 +1,41 @@
+[buildout]
+parts =
+    buildmaster
+    linux
+    trac
+[buildmaster]
+...
+[buildslave]
+...
+[trac]
+recipe = pbp.recipe.trac
+project-name = Atomisator
+project-url = ${buildmaster:project-url}
+repos-type = hg
+repos-path = /home/mercurial/atomisator/repositories/unstable
+buildbot-url = http://buildbot-atomisator.ziade.org/
+components = 
+    atomisator.db     tarek
+    atomisator.feed     tarek
+    atomisator.main     tarek
+    atomisator.parser     tarek
+    pbp.recipe.trac     tarek
+header-logo = atomisator.png
+<VirtualHost *:80>
+  ServerName atomisator.ziade.org
+  <Location />
+    SetHandler mod_python
+    PythonHandler trac.web.modpython_frontend
+    PythonOption TracEnv /home/mercurial/atomisator/buildbot/parts/trac
+    PythonOption TracUriRoot /
+
+
+    PythonPath "sys.path + ['/home/mercurial/atomisator/buildbot/parts/trac', '/home/mercurial/atomisator/buildbot/eggs']"
+  </Location>
+  <Location "/login">
+    AuthType Basic
+    AuthName "Trac login"
+    AuthUserFile /home/mercurial/atomisator/passwords
+    Require valid-user
+  </Location>
+</VirtualHost>

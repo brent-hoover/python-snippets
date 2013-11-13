@@ -1,0 +1,3 @@
+def use(sk):
+    if IMinimalMapping in sk.__implements__:
+    ## ...code using 'sk[...]' and/or 'x in sk'...

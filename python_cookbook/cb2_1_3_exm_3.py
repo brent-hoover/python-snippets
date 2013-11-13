@@ -1,0 +1,1 @@
+try: anobj.lower() + anobj + ''

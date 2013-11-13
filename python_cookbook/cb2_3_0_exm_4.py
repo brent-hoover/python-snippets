@@ -1,0 +1,7 @@
+today = datetime.date.today()
+  birthday = datetime.date(1977, 5, 4)
+  currenttime = datetime.datetime.now().time()
+  lunchtime = datetime.time(12, 00)
+  now = datetime.datetime.now()
+  epoch = datetime.datetime(1970, 1, 1)
+  meeting = datetime.datetime(2005, 8, 3, 15, 30)

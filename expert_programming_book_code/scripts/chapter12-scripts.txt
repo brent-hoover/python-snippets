@@ -1,0 +1,383 @@
+>>> def test_speed():
+...     import time
+...     start = time.time()
+...     the_code()
+...     end = time.time() - start
+...     assert end < 10, \
+...         
+"sorry this code should not take 10 seconds !"
+... 
+import time
+
+def lighter():
+    time.sleep(0.01)
+
+def light():
+    time.sleep(0.001)
+
+def heavy():
+    for i in range(100):
+        light()
+        lighter()
+        lighter()
+    time.sleep(2)
+
+def main():
+    for i in range(2):
+        heavy()
+
+if __name__ == '__main__':
+    main()
+>>> from myapp import main
+>>> import cProfile
+>>> profiler = cProfile.Profile()
+>>> profiler.runcall(main)
+>>> profiler.print_stats()
+         1209 function calls in 10.140 CPU seconds
+
+   Ordered by: standard name
+
+   ncalls 
+tottime 
+cumtime 
+percall file
+        1         0.000         10.140         10.140 myapp.py:16(main)
+      400       0.005       4.093       0.010 myapp.py:3(lighter)
+      200       0.002       2.042       0.010 myapp.py:6(light)
+        2         0.005         10.140         5.070 myapp.py:9(heavy)
+        3         0.000         0.000         0.000 {range}
+      602       10.128       10.128       0.017 {time.sleep}
+>>> cProfile.run('main()', 'myapp.stats')
+>>> import pstats
+>>> p = pstats.Stats('myapp.stats')
+>>> p.total_calls
+1210
+>>> p.sort_stats('time').print_stats(3)
+Thu Jun 19 23:56:08 2008    myapp.stats
+         1210 function calls in 10.240 CPU seconds
+   Ordered by: internal time
+   List reduced from 8 to 3 due to restriction <3>
+   ncalls 
+tottime 
+cumtime 
+percall filename:lineno(function)
+      602       10.231       10.231       0.017 {time.sleep}
+        2         0.004         10.240         5.120 myapp.py:9(heavy)
+      400       0.004       4.159       0.010 myapp.py:3(lighter)
+>>> p.print_callees('lighter')
+   Ordered by: internal time
+   List reduced from 8 to 1 due to restriction <'lighter'>
+Function             called...
+                         ncalls 
+tottime 
+cumtime
+myapp.py:3(lighter) 
+->     400     4.155     4.155 
+{time.sleep}
+>>> p.print_callers('light')          
+   Ordered by: internal time
+   List reduced from 8 to 2 due to restriction <'light'>
+Function             was called by...
+                         ncalls 
+tottime 
+cumtime
+
+
+myapp.py:3(lighter) 
+<-     400     0.004     4.159 
+myapp.py:9(heavy)
+myapp.py:6(light)    <-    200    0.002    2.073 
+myapp.py:9(heavy)
+
+
+>>> import tempfile, os, cProfile, pstats
+>>> def profile(column='time', list=5):
+...     def _profile(function):
+...         def __profile(*args, **kw):
+...             s = tempfile.mktemp()
+...             profiler = cProfile.Profile()
+...             profiler.runcall(function, *args, **kw)
+...             profiler.dump_stats(s)
+...             p = pstats.Stats(s)
+...             p.sort_stats(column).print_stats(list)
+...         return __profile
+...     return _profile
+... 
+>>> from myapp import main
+>>> @profile('time', 6)
+... def main_profiled():
+...     return main()
+... 
+>>> main_profiled()
+Fri Jun 20 00:30:36 2008   ...
+         1210 function calls in 10.129 CPU seconds
+   Ordered by: internal time
+   List reduced from 8 to 6 due to restriction <6>
+   ncalls 
+tottime 
+cumtime 
+percall filename:lineno(function)
+      602       10.118       10.118       0.017 {time.sleep}
+        2         0.005         10.129         5.065 myapp.py:9(heavy)
+      400       0.004       4.080       0.010 myapp.py:3(lighter)
+      200       0.002       2.044       0.010 myapp.py:6(light)
+        1         0.000         10.129         10.129 myapp.py:16(main)
+        3         0.000         0.000         0.000 {range}
+>>> from myapp import lighter
+>>> p = profile()(lighter)
+>>> p()
+Fri Jun 20 00:32:40 2008    /var/folders/31/31iTrMYWHny8cxfjH5VuTk+++TI/-Tmp-/tmpQjstAG
+         3 function calls in 0.010 CPU seconds
+   Ordered by: internal time
+   ncalls 
+tottime 
+cumtime 
+percall filename:lineno(function)
+        1         0.010         0.010         0.010 {time.sleep}
+        1         0.000         0.010         0.010 myapp.py:3(lighter)
+>>> from myapp import light
+>>> import timeit
+>>> t = timeit.Timer('main()')
+>>> t.timeit(number=5)
+10000000 loops, best of 3: 0.0269 usec per loop
+10000000 loops, best of 3: 0.0268 usec per loop
+10000000 loops, best of 3: 0.0269 usec per loop
+10000000 loops, best of 3: 0.0268 usec per loop
+10000000 loops, best of 3: 0.0269 usec per loop
+5.6196951866149902
+>>> import time
+>>> import sys
+>>> if sys.platform == 'win32':    # same condition in timeit
+...     timer = time.clock
+... else:
+...     timer = time.time
+>>> stats = {}
+>>> def duration(name='stats', stats=stats):
+
+
+...     def _duration(function):
+...         def __duration(*args, **kw):
+...             start_time = timer()             
+...             try:
+...                 return function(*args, **kw)
+...             finally:
+...                 stats[name] = timer() - start_time 
+...         return __duration
+...     return _duration
+... 
+>>> from myapp import heavy
+>>> heavy = duration('this_func_is')(heavy)
+>>> heavy()
+>>> print stats['this_func_is']
+1.50201916695
+>>> stats = {}
+>>> from myapp import light
+>>> import myapp
+>>> myapp.light = duration('myapp.light')(myapp.light)
+>>> myapp.main()
+>>> stats
+{'myapp.light': 0.05014801025390625}
+>>> from test import pystone
+>>> pystone.pystones()
+(1.0500000000000007, 47619.047619047589)
+>>> from test import pystone
+>>> benchtime, pystones = pystone.pystones()
+>>> def seconds_to_kpystones(seconds):
+...     if seconds == 0:
+...         return 0
+...     return (pystones*seconds) / 1000 
+... 
+>>> seconds_to_kpystones(0.03)
+1.4563106796116512
+>>> seconds_to_kpystones(1)
+48.543689320388381
+>>> seconds_to_kpystones(2)
+97.087378640776762
+>>> def duration(name='stats', stats=stats):
+...     def _duration(function):
+...         def __duration(*args, **kw):
+...             start_time = timer()             
+...             try:
+...                 return function(*args, **kw)
+...             finally:
+...                 total = timer() - start_time
+...                 kstones = <text:span text:style-name="T4">seconds_to_kpystones</text:span>(total)
+...                 stats[name] = total, kstones 
+...         return __duration
+...     return _duration
+>>> @duration()
+... def some_code():
+...     time.sleep(0.5)
+... 
+>>> some_code()
+>>> stats
+
+
+{'stats': (0.50012803077697754, 24.278059746455238)}
+>>> def my_function(argument={}):    # bad practice
+...     if '1' in argument:
+...         argument['1'] = 2
+...     argument['3'] = 4
+...     return argument
+... 
+>>> my_function()
+{'3': 4}
+>>> res = my_function()
+>>> res['4'] = 'I am still alive!'
+>>> print my_function()
+{'3': 4, '4': 'I am still alive!'}
+>>> def my_function(argument=None):    # better practice
+...     if argument is None:
+...         argument = {} 
+# a fresh dict is created everytime
+...     if '1' in argument:
+...         argument['1'] = 2
+...     argument['3'] = 4
+...     return argument
+... 
+>>> my_function()
+{'3': 4}
+>>> res = my_function()
+>>> res['4'] = 'I am still alive!'
+>>> print my_function()
+{'3': 4}
+>>> from guppy import hpy
+>>> profiler = hpy()
+>>> profiler.heap()
+Partition of a set of 22723 objects. Total size = 1660748 bytes.
+
+Index 
+Count   %   Size   % Cumulative 
+% Kind (class / dict of class)
+     0      9948 
+44      775680 
+47      775680 
+47 str
+     1      5162 
+23      214260 
+13      989940 
+60 tuple
+
+
+     2      1404      6      95472      6      1085412 
+65 types.CodeType
+     3      61      0      91484      6      1176896 
+71 dict of module
+     4      152      1      84064      5      1260960 
+76 dict of type
+     5      1333      6      79980      5      1340940 
+81 function
+     6      168      1      72620      4      1413560 
+85 type
+     7      119      1      68884      4      1482444 
+89 dict of class
+     8      76      0      51728      3      1534172 
+92 dict (no owner)
+     9      959      4      38360      2      1572532 
+95 __builtin__.wrapper_descriptor
+<43 more rows. Type e.g. '_.more' to view.>
+>>> import random
+>>> def eat_memory():
+...     memory = []
+...     def _get_char():
+...         return chr(random.randint(97, 122))
+...     for i in range(100):
+...         size = random.randint(20, 150)
+...         data = [_get_char() for i in xrange(size)]
+...         memory.append(''.join(data))
+...     return '\n'.join(memory)
+... 
+>>> profiler.iso(eat_memory())
+Partition of a set of 1 object. Total size = 8840 bytes.
+
+Index 
+Count   %   Size   % Cumulative 
+% Kind 
+     0      1 100      8840 100      8840 100 str
+>>> profiler.iso(eat_memory()+eat_memory())
+Partition of a set of 1 object. Total size = 17564 bytes.
+
+Index 
+Count   %   Size   % Cumulative 
+% Kind 
+     0      1 100      17564 100      17564 100 str
+>>> g = hpy()
+>>> g.setrelheap()
+>>> g.heap().size
+1120
+
+
+>>> g.heap().size
+1200
+>>> g.heap().size
+1144
+import time
+import sys
+from test import pystone
+from guppy import hpy
+benchtime, stones = pystone.pystones()
+def secs_to_kstones(seconds):
+    return (stones*seconds) / 1000 
+stats = {}
+if sys.platform == 'win32':
+    timer = time.clock
+else:
+    timer = time.time
+def profile(name='stats', stats=stats):
+
+
+    """Calculates a duration and a memory size."""
+    def _profile(function):
+        def __profile(*args, **kw):
+            start_time = timer()
+            profiler = hpy()
+            profiler.setref()
+        
+            # 12 corresponds to the initial memory size
+            # after a setref call
+            start = profiler.heap().size + 12
+            try:
+                return function(*args, **kw)
+            finally:
+                total = timer() - start_time
+                     
+kstones = secs_to_kstones(total)
+                memory = profiler.heap().size - start
+                stats[name] = {'time': total, 
+                               'stones': kstones, 
+
+                               'memory': profiler.heap().size}
+        return __profile
+    return _profile
+>>> import profiler
+>>> import random
+>>> eat_it = profiler.profile('you bad boy!')(eat_memory)
+>>> please = eat_it()
+>>> profiler.stats
+{'you bad boy!': {'stones': 14.306935999128555, 'memory': 8680, 'time': 0.30902981758117676}}
+>>> REPEAT = 100
+>>> def memory_grow(function, *args, **kw):
+
+
+...     """checks if a function makes the memory grows"""
+...     profiler = hpy()
+...     profiler.setref() 
+...     # 12 corresponds to the initial memory size
+...     # after a setref call
+...     start = profiler.heap().size + 12
+...     for i in range(REPEAT):
+...         function(*args, **kw)
+...     return profiler.heap().size - start
+...
+>>> def stable():
+...     return "some"*10000
+... 
+>>> d = []
+>>> def greedy():
+...     for i in range(100):
+...         d.append('ouhuvugcgc'*i)
+... 
+>>> memory_grow(stable)
+24
+>>> memory_grow(greedy)
+5196468

@@ -1,0 +1,438 @@
+def optimize():
+    """Recommended optimization"""
+    assert got_architecture_right(), "fix architecture"
+    assert made_code_work(bugs=None), "fix bugs"
+    while code_is_too_slow():
+        wbn = find_worst_bottleneck(just_guess=False,
+                                    profile=True)
+        is_faster = try_to_optimize(wbn,
+                                    run_unit_tests=True,
+                                    new_bugs=None)
+        if not is_faster:
+            undo_last_code_change()
+>>> def function(n):
+...     for i in range(n):
+...         print i
+...
+>>> def function(n):
+...     if some_test:
+...         print 'something'
+...     else:
+...         for i in range(n):
+...             print i
+... 
+>>> def function(n):
+...     for i in range(n):
+...         for j in range(n):
+...             print i, j
+...
+>>> def function(n):
+...     for i in range(n):
+...         print i
+... 
+>>> def other_function(n):
+...     if some_test:
+...         for i in range(n):
+...             function(n)
+...     else:
+...         function(n)
+... 
+>>> def function(n):
+...     for i in range(n*2):
+...         print i
+...
+>>> def find(seq, el):
+...     pos = 
+bisect(seq, el)
+...     if pos==0 or (pos==len(seq) and seq[-1]!=el):
+...         return -1
+...     return pos - 1
+... 
+>>> seq = [2, 3, 7, 8, 9]
+>>> find(seq, 9)
+4
+>>> find(seq, 10)
+-1
+>>> find(seq, 0)
+-1
+>>> find(seq, 7)
+2
+>>> seq = ['a', 'a', 'b', 'c', 'c', 'd']
+>>> res = []
+>>> for el in seq:
+...     if el not in res:
+...         res.append(el)
+... 
+>>> res
+['a', 'b', 'c', 'd']
+>>> seq = ['a', 'a', 'b', 'c', 'c', 'd']
+>>> res = set(seq)
+>>> res
+set(['a', 'c', 'b', 'd'])
+>>> from pbp.scripts.profiler import profile, stats
+>>> from collections import deque
+>>> my_list = range(100000)
+>>> my_deque = deque(range(100000))
+>>> @profile('by_list')
+... def by_list():
+...     my_list[500:502] = []
+... 
+>>> @profile('by_deque')
+... def by_deque():
+...     my_deque.rotate(500)
+...     my_deque.pop()
+...     my_deque.pop()
+...     my_deque.rotate(-500)
+...     
+... 
+>>> by_list();by_deque()
+>>> print stats['by_list']
+{'stones': 47.836141152815379, 'memory': 396, 
+
+'time': 1.0523951053619385}
+>>> print stats['by_deque']
+{'stones': 19.198688593777742, 'memory': 552, 
+
+
+
+'time': 0.42237114906311035}
+>>> from collections import deque
+>>> from pbp.scripts.profiler import profile, stats
+>>> import sys
+>>> queue = deque()
+>>> def d_add_data(data):
+...     queue.appendleft(data)
+... 
+>>> def d_process_data():
+...     queue.pop()
+... 
+>>> BIG_N = 1000000
+>>> @profile('deque')
+... def sequence():
+...     for i in range(BIG_N):
+...         d_add_data(i)
+...     for i in range(BIG_N/2):
+...         d_process_data()
+...     for i in range(BIG_N):
+...         d_add_data(i)
+... 
+>>> lqueue = []
+>>> def l_add_data(data):
+...     lqueue.append(data)
+... 
+>>> def l_process_data():
+...     lqueue.pop(-1)
+... 
+>>> @profile('list')
+... def lsequence():
+...     for i in range(BIG_N):
+...         l_add_data(i)
+...     for i in range(BIG_N/2):
+...         l_process_data()
+...     for i in range(BIG_N):
+...         l_add_data(i)
+... 
+>>> sequence(); lsequence()
+>>> print stats['deque']
+
+
+{'stones': 86.521963988031672, 'memory': 17998920, 'time': 1.9380919933319092}
+>>> print stats['list']
+{'stones': 222.34191851956504, 'memory': 17994312, 'time': 4.9804589748382568}
+>>> from collections import defaultdict
+>>> from pbp.scripts.profiler import profile, stats
+>>> s = [('yellow', 1), ('blue', 2), ('yellow', 3), 
+...      ('blue', 4), ('red', 1)]
+>>> @profile('defaultdict')
+... def faster():
+...     d = defaultdict(list)
+...     for k, v in s:
+...         d[k].append(v)
+...   
+... 
+>>> @profile('dict')
+... def slower():
+...     d = {}
+...     for k, v in s:
+...         d.setdefault(k, []).append(v)
+... 
+>>> slower(); faster()
+>>> stats['dict']
+{'stones': 16.587882671716077, 'memory': 396, 
+
+'time': 0.35166311264038086}
+>>> stats['defaultdict']
+{'stones': 6.5733464259021686, 'memory': 552, 
+
+'time': 0.13935494422912598}
+>>> lg = defaultdict(long)
+>>> lg['one']
+0L
+>>> from collections import namedtuple 
+>>> Customer = namedtuple('Customer', 
+...                       'firstname lastname
+>>> c = Customer(u'Tarek', u'Ziadé')
+>>> c.firstname
+u'Tarek'
+#!/usr/bin/python
+for i in range(100000):
+     i = str(i) + "y"*10000 
+>>> from Queue import Queue
+>>> import logging
+>>> import time 
+>>> import subprocess
+>>> q = Queue()
+>>> def index_file(filename):
+...     logging.info('indexing %s' % filename)
+...     f = open(filename)
+...     try:
+...         content = f.read()
+...         # external process is here
+...         subprocess.call(['converter.py'])
+...         time.sleep(0.5)
+...     finally:
+...         f.close()
+... 
+>>> def worker():
+...     while True:
+...         index_file(q.get())
+...         q.task_done()
+... 
+
+
+from threading import Thread
+import os
+import subprocess
+from Queue import Queue
+import logging
+import time 
+import sys
+from pbp.scripts.profiler import profile, print_stats
+dirname = os.path.realpath(os.path.dirname(__file__))
+CONVERTER = os.path.join(dirname, 'converter.py')
+q = Queue()
+def index_file(filename):
+    f = open(filename)
+    try:
+        content = f.read()
+        # process is here
+        subprocess.call([CONVERTER])
+    finally:
+        f.close()
+def worker():
+    while True:
+        index_file(q.get())
+        q.task_done()
+def index_files(files, num_workers):
+    for i in range(num_workers):
+        t = Thread(target=worker)
+        t.setDaemon(True)
+        t.start()
+    for file in files:
+        q.put(file)
+    q.join()
+def get_text_files(dirname):
+    for root, dirs, files in os.walk(dirname):
+        for file in files:
+            if os.path.splitext(file)[-1] != '.txt':
+                continue
+            yield os.path.join(root, file)
+@profile('process')
+def process(dirname, numthreads):
+    dirname = os.path.realpath(dirname)
+
+
+    if numthreads > 1:
+        index_files(get_text_files(dirname), numthreads)
+    else:
+        for f in get_text_files(dirname):
+            index_file(f)             
+if __name__ == '__main__':    
+    process(sys.argv[1], int(sys.argv[2])) 
+    print_stats()
+>>> import os
+>>> a = []
+>>> def some_work():
+...     a.append(2)
+...     child_pid = os.fork()
+...     if child_pid == 0:
+...         a.append(3)
+...         print "hey, i am the child process"
+...         print "my pid is %d" % os.getpid()
+...         print str(a)
+...     else:
+...         a.append(4)
+...         print "hey, i am the parent"
+...         print "the child is pid %d" % child_pid 
+...         print "I am the pid %d " % os.getpid()
+...         print str(a)
+... 
+>>> some_work()
+hey, i am the parent
+the child is pid 25513
+I am the pid 25411 
+[2, 4]
+hey, i am the child process
+my pid is 25513
+[2, 3]
+>>> from processing import Process
+>>> import os
+>>> def work():
+...     print 'hey i am a process, id: %d' % os.getpid()
+... 
+>>> ps = []
+>>> for i in range(4):
+...     p = Process(target=work)
+...     ps.append(p)
+...     p.start()
+... 
+hey i am a process, id: 27457
+hey i am a process, id: 27458
+hey i am a process, id: 27460
+
+
+hey i am a process, id: 27459
+>>> ps
+[<Process(Process-1, stopped)>, <Process(Process-2, stopped)>, <Process(Process-3, stopped)>, <Process(Process-4, stopped)>]
+>>> for p in ps:
+...     p.join()
+... 
+>>> import processing
+>>> import Queue
+>>> print 'this machine has %d CPUs' \
+...         % processing.cpuCount()
+this machine has 2 CPUs
+>>> def worker():
+...     file = q.get_nowait()
+...     return 'worked on ' + file
+... 
+>>> q = processing.Queue()
+>>> pool = processing.Pool()
+>>> for i in ('f1', 'f2', 'f3', 'f4', 'f5'):
+...     q.put(i)
+... 
+>>> while True:
+...     try:
+...         result = pool.apply_async(worker)
+...         print result.get(timeout=1)
+
+
+...     except Queue.Empty:
+...         break
+... 
+worked on f1
+worked on f2
+worked on f3
+worked on f4
+worked on f5
+>>> import random, timeit
+>>> from pbp.scripts.profiler import profile, print_stats
+>>> cache = {}
+>>> def square(n):
+...     return n * n
+... 
+>>> def cached_factory(n):
+...     if n in cache:
+...         cache[n] = square(n)
+...     return cache[n]
+... 
+>>> @profile('not cached')
+... def factory_calls():
+...     for i in xrange(100):
+...         square(random.randint(1, 10))
+... 
+>>> @profile('cached')
+... def cached_factory_calls():
+...     n = [random.randint(1, 10) for i in range(100)]
+...     ns = [cached_factory(i) for i in n]
+... 
+>>> factory_calls(); cached_factory_calls();
+>>> print_stats()
+cached : 6.07 kstones, 0.142 secondes, 480 bytes
+not cached : 20.51 kstones, 0.340 secondes, 396 bytes
+>>> def cache_me(a, b, c, d):
+...     # we don't care about d for the key 
+...     key = 'cache_me:%s:%s:%s' % (a, b, c)
+...     if key not in cache:
+...         print 'caching'
+...         cache[key] = complex_calculation(a, b, c, d)
+...     print d     # d is just use for display
+...     return cache[key]
+... 
+>>> cache = {}
+>>> def get_key(function, *args, **kw):
+...     key = '%s.%s:' % (function.__module__,
+...                       function.__name__)
+...     hash_args = [str(arg) for arg in args]
+...     # of course, will work only if v is hashable
+...     hash_kw = ['%s:%s' % (k, hash(v)) 
+...                for k, v in kw.items()]
+...     return '%s::%s::%s' % (key, hash_args, hash_kw)     
+... 
+>>> def memoize(get_key=get_key, cache=cache):
+...     def _memoize(function):
+...         def __memoize(*args, **kw):
+...             key = get_key(function, *args, **kw)
+...             try:
+...                 return cache[key] 
+...             except KeyError:
+...                 cache[key] = function(*args, **kw) 
+...                 return value
+...         return __memoize
+...     return _memoize
+...             
+... 
+>>> @memoize()
+... def factory(n):
+...     return n * n
+... 
+>>> factory(4)
+16
+>>> factory(4)
+
+
+16
+>>> factory(3)
+9
+>>> cache
+{"__main__.factory:::['3']::[]": 9,
+
+"__main__.factory:::['4']::[]": 16}
+>>> import md5 
+>>> def get_key(function_called, n):
+...     return md5.md5(str(n)).hexdigest()
+... 
+>>> @memoize(get_key)
+... def cached_factory(n):
+...     return n * n
+... 
+>>> factory_calls(); cached_factory_calls();
+>>> print_stats()
+cached : 6.96 kstones, 0.143 secondes, 1068 bytes
+not cached : 7.61 kstones, 0.157 secondes, 552 bytes
+def memoize(get_key=get_key, storage=cache, age=0):
+    def _memoize(function):
+        def __memoize(*args, **kw):
+            key = get_key(function, *args, **kw)
+            try:
+                value_age, value = storage[key]
+                deprecated = (age != 0 and 
+                             (value_age+age) < time.time())                              
+            except KeyError:
+                deprecated = True 
+            
+            if not deprecated:
+                return value
+            storage[key] = time.time(), function(*args, **kw)             
+            return storage[key][1]
+        return __memoize
+    return _memoize 
+>>> from datetime import datetime
+>>> @memoize(age=30)
+... def what_time():
+...     return datetime.now().strftime('%H:%M')
+... 
+>>> what_time()
+'19:36'
+>>> cache
+{'__main__.what_time:::[]::[]': (1212168961.613435, '19:36')}

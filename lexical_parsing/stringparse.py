@@ -1,4 +1,4 @@
-r"""This parses Python code that contains variable assignments.
+"""This parses Python code that contains variable assignments.
 
 It uses the Python tokenizer, but doesn't execute any code.  It only
 accepts variable assignments, with values that are strings, numbers,

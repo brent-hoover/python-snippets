@@ -1,0 +1,5 @@
+ouf = open('datafile.txt', 'w')
+cPickle.dump(data, ouf)
+cPickle.dump('some string', ouf)
+cPickle.dump(range(19), ouf)
+ouf.close()

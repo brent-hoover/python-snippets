@@ -1,0 +1,169 @@
+We have a parse function::
+The parser knows how to return a feed content, with
+the `parse` function, available as a top-level function::
+=====
+Title
+=====
+
+
+Section 1
+=========
+This *word* has emphasis.
+Section 2
+=========
+Subsection
+::::::::::
+Text. 
+$ more text.txt 
+Title
+=====
+content.
+$ rst2html.py text.txt > text.html
+$ more text.html
+<?xml version="1.0" encoding="utf-8" ?>
+...
+<html ...>
+<head>
+...
+</head>
+<body>
+<div class="document" id="title">
+<h1 class="title">Title</h1>
+<p>content.</p>
+</div>
+</body>
+</html>
+=====
+Title
+=====
+Section 1
+=========
+xxx
+Subsection A
+------------
+xxx
+Subsection B
+------------
+xxx
+Section 2
+=========
+xxx
+Subsection C
+------------
+xxx
+Bullet list:
+- one
+- two
+- three
+Enumerated list:
+
+
+1. one
+2. two
+#. auto-enumerated
+Definition list:
+one
+    one is a number.
+two
+    two is also a number.
+This is a code example
+::
+    >>> 1 + 1
+    2
+Let's continue our text
+This is a code example::
+
+
+    >>> 1 + 1
+    2
+Try `Plone CMS`_, it is great ! It is based on Zope_.
+.. _`Plone CMS`: http://plone.org
+.. _Zope: <text:a xlink:type="simple" xlink:href="http://zope.org/">http://zope.org</text:a>
+=====
+Title
+=====
+Section 1
+=========
+xxx
+
+
+Subsection A
+------------
+xxx
+Subsection B
+------------
+-> go back to `Subsection A`_
+Section 2
+=========
+xxx
+=========================================
+Database specifications for atomisator.db 
+=========================================
+:Author: Tarek
+:Tags: database mapping sql
+:abstract:
+    Write here a small abstract about your design document. 
+.. contents ::
+Who should read this ?
+::::::::::::::::::::::
+Explain here who is the target readership.
+Content
+:::::::
+Write your document here. Do not hesitate to split it in several sections.
+References
+::::::::::
+Put here references, and links to other documents.
+========================
+How to use atomisator.db 
+========================
+:Author: Tarek
+:Tags: atomisator db
+.. contents ::
+Who should read this ?
+::::::::::::::::::::::
+Explain here who is the target readership.
+
+
+
+Prerequisites
+:::::::::::::
+Put here the prerequisites for people to follow this recipe.
+Problem
+:::::::
+Explain here the problem resolved in a few sentences.
+Solution
+::::::::
+Put here the solution.
+References
+::::::::::
+Put here references, and links to other recipes.
+==========
+Operations
+==========
+
+
+This section contains operations documents :
+========
+Cookbook
+========
+Welcome to the CookBook.
+Available recipes:
+.. toctree::
+
+
+  :glob:
+  *
+=======
+session
+=======
+.. module:: db.session
+The module session...
+=======
+session
+=======
+.. module:: db.session
+.. index::
+    Database Access
+    Session
+The module session...
+:mod:`db.session`

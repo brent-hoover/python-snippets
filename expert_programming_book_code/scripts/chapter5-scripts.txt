@@ -1,0 +1,155 @@
+from setuptools import setup
+setup(name='acme.sql')
+from setuptools import setup
+setup(name='acme.sql', version='0.1.1')
+include HISTORY.txt
+include README.txt
+include CHANGES.txt
+include CONTRIBUTORS.txt
+include LICENSE
+recursive-include *.txt *.py
+from setuptools import setup
+setup(name='acme.sql', version='0.1.1', 
+      install_requires=['pysqlite', 'SQLAlchemy'])
+[server-index]
+username: tarek
+password: secret
+[distutils]
+index-servers =
+    pypi
+    alternative-server
+    alternative-account-on-pypi
+[pypi]
+username:tarek
+password:secret
+[alternative-server]
+username:tarek
+password:secret
+repository:http://example.com/pypi
+setup(name="my.command",
+          entry_points="""
+             [distutils.commands]
+             my_command 
+= my.command.module.Class 
+          """)
+import os
+from setuptools import setup, find_packages
+version = '0.1.0'
+README = os.path.join(os.path.dirname(__file__), 'README.txt')
+long_description = open(README).read() + '\n\n'
+setup(name='acme.sql',
+      version=version,
+      description=("A package that deals with SQL, "
+                   "from ACME inc"),
+      long_description=long_description,
+      classifiers=[
+        "Programming Language :: Python",
+        ("Topic :: Software Development :: Libraries :: 
+         "Python Modules"),
+        ],
+      keywords='acme sql',
+      author='Tarek',
+      author_email='tarek@ziade.org',
+
+
+      url='http://ziade.org',
+      license='GPL',
+      packages=find_packages(),
+      namespace_packages=['acme'],
+      install_requires=['pysqlite','SQLAchemy']
+      )
+try:
+    __import__('pkg_resources').declare_namespace(__name__)
+except ImportError:
+    from pkgutil import extend_path
+    __path__ = extend_path(__path__, __name__)
+from setuptools import setup, find_packages
+version = '0.1.0'
+classifiers = [
+    "Programming Language :: Python",
+    ("Topic :: Software Development :: "
+     "Libraries :: Python Modules")]
+setup(name='pbp.skels',
+      version=version,
+      description=("PasteScript templates for the Python "
+                   "Best Practice Book."),
+      classifiers=classifiers,
+      keywords='paste templates',
+      author='Tarek Ziade',
+      author_email='tarek@ziade.org',
+      url='http://atomisator.ziade.org',
+      license='GPL',
+      packages=find_packages(exclude=['ez_setup']),
+      namespace_packages=['pbp'],
+      include_package_data=True,
+      install_requires=['setuptools', 
+                        'PasteScript'],
+      entry_points="""
+
+
+      # -*- Entry points: -*-
+      [paste.paster_create_template]
+      pbp_package = pbp.skels.package:Package
+      """)
+from paste.script.templates import var
+from paste.script.templates import Template
+class Package(Template):
+    """Package template"""
+    _template_dir = 'tmpl/package'
+    summary = "A namespaced package with a test environment"
+    use_cheetah = True
+    vars = [
+        var('namespace_package', 'Namespace package',
+            default='pbp'),
+        var('package', 'The package contained', 
+
+            default='example'),
+        var('version', 'Version', default='0.1.0'),
+        var('description', 
+            'One-line description of the package'),
+        var('author', 'Author name'),
+        var('author_email', 'Author email'),
+        var('keywords', 'Space-separated keywords/tags'),
+        var('url', 'URL of homepage'),
+        var('license_name', 'License name', default='GPL')
+        ]
+    def check_vars(self, vars, command):
+        if not command.options.no_interactive and \
+           not hasattr(command, '_deleted_once'):
+            del vars['package']
+            command._deleted_once = True
+        return Template.check_vars(self, vars, command)
+from setuptools import setup, find_packages
+import os
+version = ${repr($version) or "0.0"}
+long_description = open("README.txt").read()
+classifiers = [
+    "Programming Language :: Python",
+    ("Topic :: Software Development :: "
+     "Libraries :: Python Modules")]
+setup(name=${repr($project)},
+      version=version,
+      description=${repr($description) or $empty},
+      long_description=long_description,
+      classifiers=classifiers,
+      keywords=${repr($keywords) or $empty},
+      author=${repr($author) or $empty},
+      author_email=${repr($author_email) or $empty},
+      url=${repr($url) or $empty},
+      license=${repr($license_name) or $empty},
+      packages=find_packages(exclude=['ez_setup']),
+      namespace_packages=[${repr($namespace_package)}],
+      include_package_data=True,
+      install_requires=[
+          'setuptools',
+          # -*- Extra requirements: -*-
+      ],
+      entry_points="""
+      # -*- Entry points: -*-
+      """,
+      )
+[egg_info]
+tag_build = dev
+[egg_info]
+tag_build = dev
+tag_svn_revision = true

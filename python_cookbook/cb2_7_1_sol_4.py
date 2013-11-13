@@ -1,0 +1,5 @@
+ouf = open('datafile.dat', 'wb')
+marshal.dump(data, ouf)
+marshal.dump('some string', ouf)
+marshal.dump(range(19), ouf)
+ouf.close()
