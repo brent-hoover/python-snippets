@@ -1,0 +1,35 @@
+body {
+    color: black;
+    background-color: white;
+    font-size: 80%;
+}
+h1 {
+    color: #B90091;
+}
+table {
+    border-collapse: collapse;
+}
+thead {
+    color: white;
+    background-color: #B90091;
+    font-weight: bold;
+}
+thead th {
+    padding: 0 1em;
+}
+tbody {
+    font-size: 80%;
+}
+tbody tr:nth-child(odd) {
+    background: #48DD00;
+}
+tbody tr:nth-child(even) {
+    background: #FFF100;
+}
+td.left {
+    text-align: left;
+}
+td.right {
+    text-align: right;
+}
+

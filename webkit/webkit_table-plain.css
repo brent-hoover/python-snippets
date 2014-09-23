@@ -1,0 +1,10 @@
+body {
+    font-size: 80%;
+}
+td.left {
+    text-align: left;
+}
+td.right {
+    text-align: right;
+}
+
