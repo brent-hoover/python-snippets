@@ -7,11 +7,12 @@ def increment(f):
         # and cast the result to an int and increment .
         return int(f(*args, **kw)) + 1
     return wrapped_f  # the wrapped function gets returned.
-    
+
+
 @increment
 def plus(a, b):
     return a + b
-    
+
 if __name__ == '__main__':
-	result = plus(4, 6)
-	print(result)
+    result = plus(4, 6)
+    print(result)

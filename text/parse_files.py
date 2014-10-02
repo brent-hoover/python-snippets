@@ -2,8 +2,7 @@
 #
 # [SNIPPET_NAME: Parse a File]
 # [SNIPPET_CATEGORIES: os, Regular Expression]
-# [SNIPPET_DESCRIPTION: Recursively go through all the python files and see who has
-# submitted the most (assuming they put their name on them)]
+# [SNIPPET_DESCRIPTION: Recursively go through all the python files and see who has submitted the most (assuming they put their name on them)]
 # [SNIPPET_AUTHOR: Andy Breiner <breinera@gmail.com>]
 # [SNIPPET_LICENSE: GPL]
 # [SNIPPET_DOCS: http://docs.python.org/library/os.html, # http://docs.python.org/library/re.html]
